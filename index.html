@@ -325,8 +325,8 @@
 
   // ---------- Data ----------
   const artists = [
-    { name: 'Issahh', handle: '@issahh_', genre: 'RedRow Artist', city: 'NL', img: 'redrow-issahh', bio: 'Artiest van het eerste uur bij RedRow. Volg zijn nieuwste releases, clips en sessies via Instagram.', links: { Instagram: 'https://www.instagram.com/issahh_/' } },
-    { name: 'C7evn', handle: '@c7evn_', genre: 'RedRow Artist', city: 'NL', img: 'redrow-c7evn', bio: 'Eigen sound, eigen regels. Volg zijn nieuwste releases, clips en sessies via Instagram.', links: { Instagram: 'https://www.instagram.com/c7evn_/' } }
+    { name: 'Issahh', handle: '@issahh_', genre: 'RedRow Artist', city: 'NL', img: 'assets/issahh.webp', bio: 'Artiest van het eerste uur bij RedRow. Volg zijn nieuwste releases, clips en sessies via Instagram.', links: { Instagram: 'https://www.instagram.com/issahh_/' } },
+    { name: 'C7evn', handle: '@c7evn_', genre: 'RedRow Artist', city: 'NL', img: 'assets/c7evn.webp', bio: 'Eigen sound, eigen regels. Volg zijn nieuwste releases, clips en sessies via Instagram.', links: { Instagram: 'https://www.instagram.com/c7evn_/' } }
   ];
 
   const clips = [
@@ -341,8 +341,8 @@
   $('#artistGrid').innerHTML = artists.map((a, i) => `
     <article class="tilt-stage reveal" data-tilt-stage>
       <div class="tilt frame h-full flex flex-col" data-tilt data-tilt-max="6">
-        <div class="duo scanlines relative aspect-[4/3] overflow-hidden border-b border-line">
-          <img src="https://picsum.photos/seed/${a.img}/900/675" alt="Portret van ${esc(a.name)}" loading="lazy" class="w-full h-full object-cover">
+        <div class="group relative aspect-[4/3] overflow-hidden border-b border-line bg-coal">
+          <img src="${a.img}" alt="Portret van ${esc(a.name)}" loading="lazy" class="w-full h-full object-cover object-[center_15%] transition-transform duration-700 group-hover:scale-[1.04]">
           <span class="absolute top-0 left-0 z-10 bg-blood font-mono text-[11px] tracking-[.25em] uppercase px-3 py-2">${esc(a.genre)}</span>
           <span class="absolute bottom-3 right-4 z-10 font-slab text-6xl text-bone/15 leading-none">${String(i + 1).padStart(2, '0')}</span>
         </div>
