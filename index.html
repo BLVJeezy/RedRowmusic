@@ -591,7 +591,7 @@
             </ul>
           </div>` : ''}
           <div class="mt-6 pt-5 border-t border-line flex flex-wrap gap-2">
-            <a href="${a.slug}/" class="font-mono text-[11px] tracking-[.2em] uppercase bg-bone text-ink px-3 min-h-[40px] flex items-center hover:bg-blood hover:text-bone transition-colors">Biografie →</a>
+            <a href="${a.slug}/" class="font-mono text-[11px] tracking-[.2em] uppercase border border-bone/80 extrude-ghost px-4 min-h-[40px] flex items-center">Biografie →</a>
             ${Object.entries(a.links).map(([k, v]) => `<a href="${esc(v)}" target="_blank" rel="noopener" class="font-mono text-[11px] tracking-[.2em] uppercase border border-line px-3 min-h-[40px] flex items-center hover:border-blood hover:bg-blood transition-colors">${esc(k)}</a>`).join('')}
           </div>
         </div>
