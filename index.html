@@ -208,8 +208,10 @@
 <!-- ============ HERO ============ -->
 <section class="relative md:pt-20 overflow-hidden bg-black">
   <div class="relative bg-black overflow-hidden">
-    <video class="block w-full h-[100svh] min-h-[560px] md:h-[calc(100svh-5rem)] md:min-h-[520px] object-cover object-center"
-      id="heroVideo" src="assets/hero.mp4" poster="assets/hero-poster.jpg" autoplay muted playsinline preload="auto" aria-label="RedRow Music — videoclip"></video>
+    <video class="hero-vid block w-full h-[100svh] min-h-[560px] md:h-[calc(100svh-5rem)] md:min-h-[520px] object-cover object-center"
+      src="assets/hero.mp4" poster="assets/hero-poster.jpg" autoplay muted playsinline preload="auto" aria-label="RedRow Music — videoclip"></video>
+    <video class="hero-vid absolute inset-0 w-full h-full object-cover object-center opacity-0"
+      src="assets/hero-2.mp4" muted playsinline preload="auto" aria-hidden="true"></video>
     <!-- lichte schaduw boven (leesbaarheid header op mobiel) -->
     <div class="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/60 to-transparent md:hidden pointer-events-none"></div>
     <!-- zachte donkere gloed alleen achter de knoppen -->
@@ -444,20 +446,29 @@
 
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-  // ---------- Hero-video: clips na elkaar, daarna opnieuw ----------
-  const heroVideo = $('#heroVideo');
-  if (heroVideo) {
-    const playlist = ['assets/hero.mp4', 'assets/hero-2.mp4'];
-    let clip = 0;
-    heroVideo.addEventListener('ended', () => {
-      clip = (clip + 1) % playlist.length;
-      heroVideo.src = playlist[clip];
-      heroVideo.play().catch(() => {});
+  // ---------- Hero-video: twee lagen die in elkaar overvloeien, daarna opnieuw ----------
+  const vids = $$('.hero-vid');
+  if (vids.length === 2) {
+    const FADE = 900; // ms
+    let cur = 0, fading = false;
+    vids.forEach(v => { v.style.transition = `opacity ${FADE}ms ease-in-out`; });
+    const crossfade = () => {
+      if (fading) return;
+      fading = true;
+      const from = vids[cur], to = vids[1 - cur];
+      to.currentTime = 0;
+      to.play().catch(() => {});
+      to.style.zIndex = 1; from.style.zIndex = 0;
+      to.style.opacity = 1;
+      setTimeout(() => { from.style.opacity = 0; from.pause(); cur = 1 - cur; fading = false; }, FADE);
+    };
+    vids.forEach(v => {
+      v.addEventListener('timeupdate', () => {
+        if (v === vids[cur] && v.duration && v.duration - v.currentTime < FADE / 1000) crossfade();
+      });
+      v.addEventListener('ended', () => { if (v === vids[cur]) crossfade(); });
     });
-    // volgende clip alvast laden zodat de overgang direct is
-    const pre = document.createElement('link');
-    pre.rel = 'preload'; pre.as = 'video'; pre.href = playlist[1];
-    document.head.appendChild(pre);
+    vids[0].style.opacity = 1;
   }
 
   // ---------- Stats ----------
