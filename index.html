@@ -291,8 +291,8 @@
 
   // ---------- Data ----------
   const artists = [
-    { name: 'Issahh', handle: '@issahh_', genre: 'RedRow Artist', city: 'NL', img: 'assets/issahh.webp', release: { title: 'Baddies in Belgica', url: 'https://issah.lnk.to/BADDIESINBELGICA' }, bio: 'Artiest van het eerste uur bij RedRow. Volg zijn nieuwste releases, clips en sessies via Instagram.', links: { Instagram: 'https://www.instagram.com/issahh_/' } },
-    { name: 'C7evn', handle: '@c7evn_', genre: 'RedRow Artist', city: 'NL', img: 'assets/c7evn.webp', release: { title: 'Topfit', url: 'https://adabx.lnk.to/TOPFIT' }, bio: 'Eigen sound, eigen regels. Volg zijn nieuwste releases, clips en sessies via Instagram.', links: { Instagram: 'https://www.instagram.com/c7evn_/' } }
+    { id: 'issahh', name: 'Issahh', handle: '@issahh_', genre: 'RedRow Artist', city: 'NL', img: 'assets/issahh.webp', release: { title: 'Baddies in Belgica', url: 'https://issah.lnk.to/BADDIESINBELGICA' }, bio: 'Artiest van het eerste uur bij RedRow. Volg zijn nieuwste releases, clips en sessies via Instagram.', links: { Instagram: 'https://www.instagram.com/issahh_/' } },
+    { id: 'c7evn', name: 'C7evn', handle: '@c7evn_', genre: 'RedRow Artist', city: 'NL', img: 'assets/c7evn.webp', release: { title: 'Topfit', url: 'https://adabx.lnk.to/TOPFIT' }, bio: 'Eigen sound, eigen regels. Volg zijn nieuwste releases, clips en sessies via Instagram.', links: { Instagram: 'https://www.instagram.com/c7evn_/' } }
   ];
 
   const clips = [
@@ -343,7 +343,7 @@
         </div>
         <div class="pop p-5 sm:p-7 flex-1 flex flex-col">
           <div class="flex items-baseline justify-between gap-4">
-            <h3 class="font-slab text-2xl sm:text-3xl uppercase">${esc(a.name)}</h3>
+            <h3 class="font-slab text-2xl sm:text-3xl uppercase"><a href="artiest.html?a=${a.id}" class="hover:text-blood transition-colors">${esc(a.name)}</a></h3>
             <span class="font-mono text-[11px] tracking-[.2em] text-ash shrink-0">${esc(a.handle)}</span>
           </div>
           <p class="mt-3 text-ash leading-relaxed text-[15px] flex-1">${esc(a.bio)}</p>
@@ -355,6 +355,7 @@
             <span class="font-mono text-xs tracking-[.2em] uppercase shrink-0"><span class="hidden sm:inline">Luister </span>→</span>
           </a>` : ''}
           <div class="mt-6 pt-5 border-t border-line flex flex-wrap gap-2">
+            <a href="artiest.html?a=${a.id}" class="font-mono text-[11px] tracking-[.2em] uppercase bg-bone text-ink px-3 min-h-[40px] flex items-center hover:bg-blood hover:text-bone transition-colors">Biografie →</a>
             ${Object.entries(a.links).map(([k, v]) => `<a href="${esc(v)}" target="_blank" rel="noopener" class="font-mono text-[11px] tracking-[.2em] uppercase border border-line px-3 min-h-[40px] flex items-center hover:border-blood hover:bg-blood transition-colors">${esc(k)}</a>`).join('')}
           </div>
         </div>
