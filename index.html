@@ -209,9 +209,11 @@
 <section class="relative md:pt-20 overflow-hidden bg-black">
   <div class="relative bg-black overflow-hidden">
     <video class="hero-vid block w-full h-[100svh] min-h-[560px] md:h-[calc(100svh-5rem)] md:min-h-[520px] object-cover object-center"
-      src="assets/hero.mp4" poster="assets/hero-poster.jpg" autoplay muted playsinline preload="auto" aria-label="RedRow Music — videoclip"></video>
+      data-src="assets/hero.mp4" data-src-m="assets/hero-m.mp4" poster="assets/hero-poster.jpg" data-poster-m="assets/hero-poster-m.jpg" autoplay muted playsinline webkit-playsinline disablepictureinpicture preload="auto" aria-label="RedRow Music — videoclip"></video>
     <video class="hero-vid absolute inset-0 w-full h-full object-cover object-center opacity-0"
-      src="assets/hero-2.mp4" muted playsinline preload="auto" aria-hidden="true"></video>
+      data-src="assets/hero-2.mp4" data-src-m="assets/hero-2-m.mp4" muted playsinline webkit-playsinline disablepictureinpicture preload="auto" aria-hidden="true"></video>
+    <!-- geanimeerde fallback (bv. iPhone in energiebesparingsmodus blokkeert video-autoplay) -->
+    <img id="heroFallback" src="" data-src="assets/hero-m.webp" alt="" aria-hidden="true" class="absolute inset-0 z-[1] w-full h-full object-cover object-center hidden">
     <!-- lichte schaduw boven (leesbaarheid header op mobiel) -->
     <div class="absolute z-[2] inset-x-0 top-0 h-24 bg-gradient-to-b from-black/60 to-transparent md:hidden pointer-events-none"></div>
     <!-- zachte donkere gloed alleen achter de knoppen -->
@@ -469,6 +471,36 @@
       v.addEventListener('ended', () => { if (v === vids[cur]) crossfade(); });
     });
     vids[0].style.opacity = 1;
+
+    // Juiste bron per scherm: mobiel krijgt een lichte, staande versie
+    const mobile = matchMedia('(max-width: 767px)').matches;
+    vids.forEach(v => {
+      v.muted = true; v.defaultMuted = true; v.setAttribute('muted', '');
+      v.src = mobile ? v.dataset.srcM : v.dataset.src;
+      if (mobile && v.dataset.posterM) v.poster = v.dataset.posterM;
+    });
+
+    // Afspelen afdwingen; lukt het niet (energiebesparing), toon de geanimeerde fallback
+    const fallback = $('#heroFallback');
+    const tryPlay = () => {
+      const v = vids[cur];
+      if (!v.paused) return;
+      v.play().then(hideFallback).catch(() => {});
+    };
+    const showFallback = () => {
+      if (!mobile || !vids[cur].paused || !fallback.classList.contains('hidden')) return;
+      fallback.src = fallback.dataset.src;
+      fallback.classList.remove('hidden');
+    };
+    const hideFallback = () => fallback.classList.add('hidden');
+    tryPlay();
+    vids[0].addEventListener('loadeddata', tryPlay);
+    vids[0].addEventListener('canplay', tryPlay);
+    vids.forEach(v => v.addEventListener('playing', () => { if (v === vids[cur]) hideFallback(); }));
+    setTimeout(showFallback, 2500);
+    ['touchstart', 'scroll', 'click'].forEach(ev => addEventListener(ev, tryPlay, { passive: true, once: true }));
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) tryPlay(); });
+    addEventListener('pageshow', tryPlay);
   }
 
   // ---------- Stats ----------
