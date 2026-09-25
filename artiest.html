@@ -193,14 +193,14 @@
   $('#artistPage').innerHTML = `
   <!-- Hero -->
   <section class="pt-16 md:pt-20 bg-black">
-    <div class="grid lg:grid-cols-2 lg:min-h-[calc(100svh-5rem)]">
-      <div class="relative bg-coal overflow-hidden aspect-[4/5] sm:aspect-[4/3] lg:aspect-auto">
+    <div class="grid lg:grid-cols-[3fr_2fr] lg:h-[calc(100svh-5rem)] lg:min-h-[640px]">
+      <div class="relative bg-coal overflow-hidden aspect-[3/4] sm:aspect-[4/3] lg:aspect-auto">
         <img src="${a.img}" alt="Portret van ${esc(a.name)}" class="absolute inset-0 w-full h-full object-cover object-[center_20%]">
         <span class="absolute top-0 left-0 bg-blood font-mono text-[11px] tracking-[.25em] uppercase px-3 py-2">RedRow Artist</span>
       </div>
-      <div class="flex flex-col justify-center px-4 sm:px-10 lg:px-16 py-12 lg:py-16">
+      <div class="flex flex-col justify-center px-4 sm:px-10 lg:px-12 xl:px-16 py-12 lg:py-16">
         <a href="index.html#artists" class="self-start font-mono text-[11px] tracking-[.25em] uppercase text-ash hover:text-bone min-h-[44px] flex items-center">← Alle artiesten</a>
-        <h1 class="mt-4 font-slab uppercase leading-[.9] text-[clamp(3.2rem,12vw,8rem)] slab-3d break-words">${esc(a.name)}</h1>
+        <h1 class="mt-4 font-slab uppercase leading-[.9] text-[clamp(3.2rem,12vw,7rem)] slab-3d break-words">${esc(a.name)}</h1>
         <p class="mt-4 font-mono text-sm tracking-[.2em] text-blood">${esc(a.handle)}</p>
         <p class="mt-6 max-w-md text-ash text-lg leading-relaxed">${esc(a.tagline)}</p>
         <div class="mt-10 flex flex-col sm:flex-row gap-4 sm:gap-6">
