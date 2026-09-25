@@ -84,6 +84,14 @@
   .field::placeholder { color: #555; }
   select.field { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 0h12L6 8z' fill='%239A3530'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; }
 
+  /* Hanger wiegt als een slinger rond het ophangpunt bovenaan */
+  .chain-sway { --sway-scale: 1.06; transform-origin: 50% 0; animation: chainSway 4.2s cubic-bezier(.45,0,.55,1) infinite; will-change: transform; }
+  @media (min-width: 768px) { .chain-sway { --sway-scale: 1; } }
+  @keyframes chainSway {
+    0%   { transform: scale(var(--sway-scale)) rotate(-1.4deg); }
+    50%  { transform: scale(var(--sway-scale)) rotate(1.4deg); }
+    100% { transform: scale(var(--sway-scale)) rotate(-1.4deg); }
+  }
   [data-header].scrolled a, [data-header].scrolled button { text-shadow: 0 1px 10px rgba(0,0,0,.95); filter: drop-shadow(0 1px 6px rgba(0,0,0,.8)); }
   #mobileMenu { transform: translateX(100%); transition: transform .35s cubic-bezier(.7,0,.2,1); }
   #mobileMenu.open { transform: translateX(0); }
@@ -105,7 +113,7 @@
 <body class="font-sans text-bone antialiased min-h-screen overflow-x-hidden">
 
 <!-- ============ HEADER ============ -->
-<header id="top" class="fixed top-0 inset-x-0 z-50 bg-black transition-colors duration-300" data-header>
+<header id="top" class="fixed top-0 inset-x-0 z-50 bg-black transition-colors duration-300" data-header data-overlay>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 md:h-20 flex items-center justify-between">
     <a href="#top" class="flex items-center gap-3 group" aria-label="RedRow Music home">
       <span class="w-11 h-11 md:w-12 md:h-12 bg-black overflow-hidden shrink-0"><img src="assets/logo.webp" alt="" width="1254" height="1254" class="w-full h-full scale-[1.35]"></span>
@@ -138,11 +146,11 @@
 
 <main>
 <!-- ============ HERO ============ -->
-<section class="relative pt-16 md:pt-20 pb-16 md:pb-24 overflow-hidden bg-black">
-  <picture class="block bg-black">
+<section class="relative md:pt-20 pb-16 md:pb-24 overflow-hidden bg-black">
+  <picture class="block bg-black overflow-hidden">
     <source media="(min-width: 768px)" srcset="assets/hero-desktop.webp" width="1448" height="1086">
     <img src="assets/redrow-hero.webp" alt="RedRow Music — iced-out R hanger met RED ROW belettering" width="1312" height="1195" fetchpriority="high" draggable="false"
-      class="block w-full aspect-[4/5] md:aspect-[4/3] lg:aspect-auto lg:h-[calc(100svh-5rem)] lg:max-h-[1086px] object-cover object-center lg:object-contain select-none">
+      class="chain-sway block w-full aspect-[4/5] md:aspect-[4/3] lg:aspect-auto lg:h-[calc(100svh-5rem)] lg:max-h-[1086px] object-cover object-center lg:object-contain select-none">
   </picture>
 
   <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center pt-10 md:pt-14">
@@ -471,8 +479,10 @@
   const onScroll = () => {
     const s = scrollY > 20;
     const open = menu.classList.contains('open');
-    header.classList.toggle('bg-black', !s || open);
-    header.classList.toggle('scrolled', s && !open);
+    // Op mobiel zweeft de header bovenaan transparant over de hero-foto
+    const overlay = header.hasAttribute('data-overlay') && !matchMedia('(min-width: 768px)').matches;
+    header.classList.toggle('bg-black', (!s && !overlay) || open);
+    header.classList.toggle('scrolled', (s || overlay) && !open);
   };
   addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
