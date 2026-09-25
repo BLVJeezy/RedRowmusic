@@ -391,9 +391,9 @@
     const d = new Date(e.date + 'T12:00:00');
     return `
     <li class="reveal group grid grid-cols-[72px_1fr] sm:grid-cols-[96px_1fr_auto] items-center gap-x-5 sm:gap-x-8 gap-y-4 py-6 sm:py-7 border-b border-line hover:bg-coal/60 transition-colors">
-      <div class="bg-ink border border-line text-center py-3 extrude-ghost">
+      <div class="bg-blood extrude text-bone text-center py-3">
         <div class="font-slab text-3xl sm:text-4xl leading-none">${String(d.getDate()).padStart(2, '0')}</div>
-        <div class="mt-1 font-mono text-[10px] sm:text-[11px] tracking-[.25em] text-blood">${months[d.getMonth()]}</div>
+        <div class="mt-1 font-mono text-[10px] sm:text-[11px] tracking-[.25em] text-bone/85">${months[d.getMonth()]}</div>
       </div>
       <div class="min-w-0">
         <p class="font-mono text-[11px] tracking-[.25em] uppercase text-ash">${days[d.getDay()]} · ${esc(e.city)}</p>
