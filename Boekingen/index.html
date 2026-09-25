@@ -46,6 +46,14 @@
   .extrude-ghost:hover { transform: translate(-2px,-2px); box-shadow: 1px 1px 0 #9A3530, 2px 2px 0 #9A3530, 3px 3px 0 #9A3530, 4px 4px 0 #9A3530, 5px 5px 0 #9A3530, 6px 6px 0 #9A3530, 7px 7px 0 #9A3530, 8px 8px 0 #9A3530; }
   .extrude-ghost:active { transform: translate(5px,5px); box-shadow: 1px 1px 0 #333; }
 
+  /* Diamanten letters (artiestennamen) */
+  .gem-text {
+    background-image: linear-gradient(118deg, #6b727a 0%, #d9dfe6 16%, #ffffff 26%, #a9b1ba 38%, #6f767e 50%, #e8edf2 62%, #ffffff 70%, #9ca4ad 84%, #5f656d 100%);
+    background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(1px 1px 0 #50555c) drop-shadow(1px 1px 0 #2e3136) drop-shadow(0 0 8px rgba(255,255,255,.12));
+    animation: gemText 6s linear infinite;
+  }
+  @keyframes gemText { from { background-position: 100% 0; } to { background-position: -120% 0; } }
   /* ---------- Edelsteen-look: één geslepen steen (robijn voor rode knoppen/banner, diamant voor witte knoppen) ---------- */
   :where(.extrude.bg-blood, .extrude-ghost.border-bone\/80) { position: relative; }
   .extrude.bg-blood, .extrude-ghost.border-bone\/80 { overflow: hidden; isolation: isolate; }
