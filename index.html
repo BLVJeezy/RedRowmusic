@@ -93,8 +93,13 @@
          background: linear-gradient(#1d1d1d 0 50%, #131313 50%); border: 1px solid #2c2c2c;
          box-shadow: 1px 1px 0 #333, 2px 2px 0 #333, 3px 3px 0 #333, inset 0 1px 0 rgba(255,255,255,.06); }
   .pad::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: #000; box-shadow: 0 1px 0 rgba(255,255,255,.05); }
-  .pad-reel { display: flex; flex-direction: column; transition: transform 2.2s cubic-bezier(.15,.85,.2,1); }
+  .pad-reel { display: flex; flex-direction: column; transition: transform 2.4s cubic-bezier(.2,.7,.15,1), filter 2.4s cubic-bezier(.2,.7,.15,1); }
+  .pad-reel.spinning { filter: blur(1.2px); }
   .pad-reel span { height: var(--h); line-height: var(--h); text-align: center; }
+  /* bovenste helft lichter, onderste donkerder: echte teltegel */
+  .pad::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+                 background: linear-gradient(rgba(255,255,255,.07), transparent 45%, rgba(0,0,0,.35) 55%, rgba(0,0,0,.15)); }
+  .pad::after { z-index: 2; }
   @media (min-width: 768px) { .pad { --h: 3.5rem; width: 2.6rem; } }
   /* Artiestenkaarten zweven en draaien licht (aparte translate/rotate, zodat de muis-tilt blijft werken) */
   .float-card { animation: floatCard 6s ease-in-out infinite; box-shadow: 0 30px 40px -20px rgba(0,0,0,.9); }
@@ -418,9 +423,9 @@
   const stats = [
     { label: 'Artiesten', value: 2 },
     { label: 'Videoclips', value: 3 },
-    { label: 'Luisteraars', value: 48250 },
-    { label: 'Maandelijkse luisteraars', value: 12480 },
-    { label: 'Streams in totaal', value: 1254300 }
+    { label: 'Luisteraars', value: 250000, plus: true },
+    { label: 'Maandelijkse luisteraars', value: 100000, plus: true },
+    { label: 'Streams in totaal', value: 2500000, plus: true }
   ];
 
   const events = [
@@ -442,18 +447,25 @@
     return `
     <div class="reveal flex items-center justify-between gap-4 py-5 md:py-6 border-b border-line">
       <dt class="font-mono text-[11px] sm:text-xs tracking-[.25em] uppercase text-ash">${esc(st.label)}</dt>
-      <dd class="flex items-end gap-1 font-slab text-2xl md:text-4xl text-bone" aria-label="${st.value.toLocaleString('nl-NL')}">
+      <dd class="flex items-end gap-1 font-slab text-2xl md:text-4xl text-bone" aria-label="${st.value.toLocaleString('nl-NL')}${st.plus ? '+' : ''}">
         ${chars.map(ch => /\d/.test(ch)
-          ? `<span class="pad" aria-hidden="true"><span class="pad-reel" data-d="${ch}">${'01234567890123456789'.split('').map(n => `<span>${n}</span>`).join('')}</span></span>`
-          : `<span class="text-blood pb-1" aria-hidden="true">${ch}</span>`).join('')}
+          ? `<span class="pad" aria-hidden="true"><span class="pad-reel" data-d="${ch}">${'0123456789'.repeat(5).split('').map(n => `<span>${n}</span>`).join('')}</span></span>`
+          : `<span class="text-blood pb-1" aria-hidden="true">${ch}</span>`).join('')}${st.plus ? '<span class="text-blood pb-1 pl-1" aria-hidden="true">+</span>' : ''}
       </dd>
     </div>`;
   }).join('');
   const statIO = new IntersectionObserver(es => es.forEach(e => {
     if (!e.isIntersecting) return;
-    $$('.pad-reel', e.target).forEach((reel, i) => {
-      reel.style.transitionDelay = `${i * 90}ms`;
-      reel.style.transform = `translateY(calc(var(--h) * -${10 + +reel.dataset.d}))`;
+    // Kilometerteller: het meest rechtse cijfer draait het vaakst en stopt het laatst
+    const reels = $$('.pad-reel', e.target);
+    reels.forEach((reel, i) => {
+      const fromRight = reels.length - 1 - i;
+      const turns = Math.max(1, 4 - fromRight);
+      const dur = 1.6 + (reels.length - fromRight) * .25;
+      reel.style.transitionDuration = `${dur}s`;
+      reel.classList.add('spinning');
+      reel.style.transform = `translateY(calc(var(--h) * -${turns * 10 + +reel.dataset.d}))`;
+      setTimeout(() => reel.classList.remove('spinning'), dur * 700);
     });
     statIO.unobserve(e.target);
   }), { threshold: .4 });
