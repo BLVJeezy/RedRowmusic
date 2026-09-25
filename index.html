@@ -106,7 +106,7 @@
       <span class="font-mono text-sm tracking-[.3em] font-semibold">REDROW<span class="text-blood">/</span>MUSIC</span>
     </a>
     <nav class="hidden md:flex items-center gap-8 font-mono text-xs tracking-[.25em] uppercase">
-      <a href="#studio" class="text-ash hover:text-bone transition-colors">Studio</a>
+      <a href="#events" class="text-ash hover:text-bone transition-colors">Events</a>
       <a href="#artists" class="text-ash hover:text-bone transition-colors">Artiesten</a>
       <a href="#clips" class="text-ash hover:text-bone transition-colors">Clips</a>
       <a href="#contact" class="bg-blood text-bone px-5 py-3 extrude">Contact</a>
@@ -120,7 +120,7 @@
 <!-- Mobile menu -->
 <div id="mobileMenu" class="md:hidden fixed inset-0 top-16 z-40 bg-ink border-t border-line flex flex-col" aria-hidden="true">
   <nav class="flex-1 flex flex-col px-4 pt-6">
-    <a href="#studio" class="mnav flex items-baseline justify-between py-5 border-b border-line"><span class="font-slab text-4xl">Studio</span><span class="font-mono text-xs text-blood">01</span></a>
+    <a href="#events" class="mnav flex items-baseline justify-between py-5 border-b border-line"><span class="font-slab text-4xl">Events</span><span class="font-mono text-xs text-blood">01</span></a>
     <a href="#artists" class="mnav flex items-baseline justify-between py-5 border-b border-line"><span class="font-slab text-4xl">Artiesten</span><span class="font-mono text-xs text-blood">02</span></a>
     <a href="#clips" class="mnav flex items-baseline justify-between py-5 border-b border-line"><span class="font-slab text-4xl">Clips</span><span class="font-mono text-xs text-blood">03</span></a>
     <a href="#contact" class="mnav flex items-baseline justify-between py-5 border-b border-line"><span class="font-slab text-4xl">Contact</span><span class="font-mono text-xs text-blood">04</span></a>
@@ -172,43 +172,17 @@
   </div>
 </div>
 
-<!-- ============ STUDIO / GALLERY ============ -->
-<section id="studio" class="py-20 md:py-28 scroll-mt-16">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+<!-- ============ EVENTS ============ -->
+<section id="events" class="py-20 md:py-28 scroll-mt-16">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
     <div class="flex items-end justify-between gap-6 mb-10 md:mb-14 reveal">
       <div>
-        <p class="font-mono text-xs tracking-[.35em] text-blood uppercase">01 / Sfeer</p>
-        <h2 class="mt-3 font-slab text-4xl sm:text-5xl md:text-6xl uppercase slab-3d">De Studio</h2>
+        <p class="font-mono text-xs tracking-[.35em] text-blood uppercase">01 / Live</p>
+        <h2 class="mt-3 font-slab text-4xl sm:text-5xl md:text-6xl uppercase slab-3d">Upcoming Events</h2>
       </div>
-      <p class="hidden md:block max-w-xs text-ash text-sm leading-relaxed">Rode lampen, warme buizen, lange nachten. Waar elke plaat van RedRow begint.</p>
+      <p class="hidden md:block max-w-xs text-ash text-sm leading-relaxed">Zie de artiesten van RedRow live. Tickets gaan snel — wees er op tijd bij.</p>
     </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-      <figure class="tilt-stage reveal" data-tilt-stage>
-        <div class="tilt frame p-2 sm:p-3" data-tilt>
-          <div class="duo scanlines relative aspect-[4/5] overflow-hidden">
-            <img src="https://picsum.photos/seed/redrow-console/800/1000" alt="Mengtafel in de studio" loading="lazy" class="w-full h-full object-cover">
-          </div>
-          <figcaption class="pop flex justify-between items-center pt-3 font-mono text-[11px] tracking-[.25em] uppercase"><span>Control Room</span><span class="text-blood">A-01</span></figcaption>
-        </div>
-      </figure>
-      <figure class="tilt-stage reveal lg:mt-10" data-tilt-stage>
-        <div class="tilt frame p-2 sm:p-3" data-tilt>
-          <div class="duo scanlines relative aspect-[4/5] overflow-hidden">
-            <img src="https://picsum.photos/seed/redrow-live/800/1000" alt="Opnamesessie in de live room" loading="lazy" class="w-full h-full object-cover">
-          </div>
-          <figcaption class="pop flex justify-between items-center pt-3 font-mono text-[11px] tracking-[.25em] uppercase"><span>Live Room</span><span class="text-blood">A-02</span></figcaption>
-        </div>
-      </figure>
-      <figure class="tilt-stage reveal sm:col-span-2 lg:col-span-1" data-tilt-stage>
-        <div class="tilt frame p-2 sm:p-3" data-tilt>
-          <div class="duo scanlines relative aspect-[4/5] sm:aspect-[16/9] lg:aspect-[4/5] overflow-hidden">
-            <img src="https://picsum.photos/seed/redrow-vinyl/1200/1000" alt="Vinyl en tape archief" loading="lazy" class="w-full h-full object-cover">
-          </div>
-          <figcaption class="pop flex justify-between items-center pt-3 font-mono text-[11px] tracking-[.25em] uppercase"><span>Tape Vault</span><span class="text-blood">A-03</span></figcaption>
-        </div>
-      </figure>
-    </div>
+    <ol id="eventList" class="border-t border-line"></ol>
   </div>
 </section>
 
@@ -335,7 +309,37 @@
     { title: 'RedRow — Clip 03', id: 'bJZMV-J2zKE' }
   ];
 
+  // Vervang door echte data. Datum als JJJJ-MM-DD; ticket leeg = 'Binnenkort'.
+  const events = [
+    { date: '2026-10-17', artist: 'Issahh', title: 'Live Showcase', venue: 'Paradiso', city: 'Amsterdam', ticket: '#' },
+    { date: '2026-10-31', artist: 'C7evn', title: 'Headline Show', venue: 'Maassilo', city: 'Rotterdam', ticket: '#' },
+    { date: '2026-11-14', artist: 'Issahh × C7evn', title: 'RedRow Night', venue: 'TivoliVredenburg', city: 'Utrecht', ticket: '#' },
+    { date: '2026-12-05', artist: 'C7evn', title: 'Support Set', venue: 'Melkweg', city: 'Amsterdam', ticket: '' }
+  ];
+
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  // ---------- Events ----------
+  const months = ['JAN','FEB','MRT','APR','MEI','JUN','JUL','AUG','SEP','OKT','NOV','DEC'];
+  const days = ['ZO','MA','DI','WO','DO','VR','ZA'];
+  $('#eventList').innerHTML = events.map(e => {
+    const d = new Date(e.date + 'T12:00:00');
+    return `
+    <li class="reveal group grid grid-cols-[72px_1fr] sm:grid-cols-[96px_1fr_auto] items-center gap-x-5 sm:gap-x-8 gap-y-4 py-6 sm:py-7 border-b border-line hover:bg-coal/60 transition-colors">
+      <div class="bg-ink border border-line text-center py-3 extrude-ghost">
+        <div class="font-slab text-3xl sm:text-4xl leading-none">${String(d.getDate()).padStart(2, '0')}</div>
+        <div class="mt-1 font-mono text-[10px] sm:text-[11px] tracking-[.25em] text-blood">${months[d.getMonth()]}</div>
+      </div>
+      <div class="min-w-0">
+        <p class="font-mono text-[11px] tracking-[.25em] uppercase text-ash">${days[d.getDay()]} · ${esc(e.city)}</p>
+        <h3 class="mt-1 font-slab text-xl sm:text-3xl uppercase leading-tight">${esc(e.artist)}</h3>
+        <p class="mt-1 text-ash text-sm sm:text-[15px]">${esc(e.title)} — ${esc(e.venue)}</p>
+      </div>
+      ${e.ticket
+        ? `<a href="${esc(e.ticket)}" target="_blank" rel="noopener" class="col-span-2 sm:col-span-1 bg-blood text-bone font-mono text-xs tracking-[.2em] uppercase px-6 min-h-[48px] flex items-center justify-center gap-3 extrude">Tickets <span aria-hidden="true">→</span></a>`
+        : `<span class="col-span-2 sm:col-span-1 border border-line text-ash font-mono text-xs tracking-[.2em] uppercase px-6 min-h-[48px] flex items-center justify-center">Binnenkort</span>`}
+    </li>`;
+  }).join('');
 
   // ---------- Artists ----------
   $('#artistGrid').innerHTML = artists.map((a, i) => `
@@ -344,7 +348,6 @@
         <div class="group relative aspect-[4/3] overflow-hidden border-b border-line bg-coal">
           <img src="${a.img}" alt="Portret van ${esc(a.name)}" loading="lazy" class="w-full h-full object-cover object-[center_15%] transition-transform duration-700 group-hover:scale-[1.04]">
           <span class="absolute top-0 left-0 z-10 bg-blood font-mono text-[11px] tracking-[.25em] uppercase px-3 py-2">${esc(a.genre)}</span>
-          <span class="absolute bottom-3 right-4 z-10 font-slab text-6xl text-bone/15 leading-none">${String(i + 1).padStart(2, '0')}</span>
         </div>
         <div class="pop p-5 sm:p-7 flex-1 flex flex-col">
           <div class="flex items-baseline justify-between gap-4">
