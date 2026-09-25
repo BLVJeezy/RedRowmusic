@@ -52,8 +52,8 @@
   .tilt { transform-style: preserve-3d; transition: transform .25s ease-out; will-change: transform; }
   .tilt .pop { transform: translateZ(40px); }
 
-  .hero-pendant { -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%); mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%); filter: drop-shadow(0 40px 60px rgba(0,0,0,.9)) drop-shadow(0 0 80px rgba(163,29,29,.25)); animation: sway 7s ease-in-out infinite; transform-origin: 50% 0; }
-  @keyframes sway { 0%,100% { transform: rotateZ(-1.2deg) rotateY(-6deg); } 50% { transform: rotateZ(1.2deg) rotateY(6deg); } }
+  .hero-pendant { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 14%, #000 86%, transparent 100%), linear-gradient(180deg, transparent 0, #000 5%, #000 84%, transparent 100%); -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent 0, #000 14%, #000 86%, transparent 100%), linear-gradient(180deg, transparent 0, #000 5%, #000 84%, transparent 100%); mask-composite: intersect; filter: drop-shadow(0 40px 60px rgba(0,0,0,.9)) drop-shadow(0 0 80px rgba(163,29,29,.25)); animation: sway 7s ease-in-out infinite; transform-origin: 50% 0; }
+  @keyframes sway { 0%,100% { transform: rotateZ(-.8deg) rotateY(-4deg); } 50% { transform: rotateZ(.8deg) rotateY(4deg); } }
 
   /* frame with red corner ticks */
   .frame { position: relative; border: 1px solid #262626; background: #0d0d0d; }
@@ -130,7 +130,7 @@
 
 <main>
 <!-- ============ HERO ============ -->
-<section class="relative pt-24 md:pt-28 pb-16 md:pb-24 overflow-hidden">
+<section class="relative pt-16 md:pt-20 pb-16 md:pb-24 overflow-hidden">
   <!-- side rails -->
   <div class="hidden lg:flex absolute left-6 top-40 bottom-24 flex-col justify-between font-mono text-[10px] tracking-[.3em] text-ash/70 [writing-mode:vertical-rl] rotate-180">
     <span>REC ● 00:00:00:00</span><span>SIDE A</span>
@@ -140,16 +140,14 @@
   </div>
 
   <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center">
-    <div class="tilt-stage mx-auto w-full max-w-[520px]" data-tilt-stage>
+    <div class="tilt-stage -mx-4 sm:mx-auto sm:w-full max-w-[880px]" data-tilt-stage>
       <div class="tilt" data-tilt data-tilt-max="10">
         <img src="assets/redrow-hero.webp" alt="RedRow Music — iced-out R hanger met RED ROW belettering" class="hero-pendant w-full h-auto select-none" draggable="false" width="1312" height="1195" fetchpriority="high">
       </div>
     </div>
 
-    <p class="mt-4 font-mono text-[11px] sm:text-xs tracking-[.4em] text-blood uppercase">— Onafhankelijk label · Sinds 2019 —</p>
-    <h1 class="mt-5 font-slab uppercase leading-[.9] tracking-tight text-[clamp(2.6rem,10vw,7.5rem)] slab-3d">
-      The Sound<br>of <span class="text-blood">RedRow</span>
-    </h1>
+    <p class="mt-4 font-mono text-[10px] sm:text-xs tracking-[.2em] sm:tracking-[.4em] text-blood uppercase">— Onafhankelijk label · Sinds 2019 —</p>
+    <h1 class="sr-only">RedRow Music</h1>
     <p class="mt-6 max-w-xl mx-auto text-ash text-base sm:text-lg leading-relaxed">
       Rauwe sessies, analoge warmte en artiesten die hun eigen regels schrijven. Opgenomen na middernacht, uitgebracht zonder compromis.
     </p>
