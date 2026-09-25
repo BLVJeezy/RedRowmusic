@@ -46,7 +46,8 @@
   .extrude-ghost:active { transform: translate(5px,5px); box-shadow: 1px 1px 0 #333; }
 
   /* ---------- Edelsteen-look: één geslepen steen (robijn voor rode knoppen/banner, diamant voor witte knoppen) ---------- */
-  .extrude.bg-blood, .extrude-ghost.border-bone\/80 { position: relative; overflow: hidden; isolation: isolate; }
+  :where(.extrude.bg-blood, .extrude-ghost.border-bone\/80) { position: relative; }
+  .extrude.bg-blood, .extrude-ghost.border-bone\/80 { overflow: hidden; isolation: isolate; }
   /* tafel van de steen: lichtbreking in schuine banen */
   .extrude.bg-blood {
     background-color: #9f060a;
@@ -92,9 +93,10 @@
 
   /* frame with red corner ticks */
   .frame { position: relative; border: 1px solid #262626; background: #0d0d0d; }
-  .frame::before, .frame::after { content: ""; position: absolute; width: 14px; height: 14px; border-color: #9A3530; border-style: solid; z-index: 3; pointer-events: none; }
-  .frame::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
-  .frame::after { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+  /* robijnrode hoeken, zelfde geslepen stijl als de knoppen */
+  .frame::before, .frame::after { content: ""; position: absolute; width: 24px; height: 24px; border-style: solid; z-index: 3; pointer-events: none; filter: drop-shadow(1px 1px 0 #4a0006) drop-shadow(2px 2px 0 #4a0006); }
+  .frame::before { top: -2px; left: -2px; border-width: 4px 0 0 4px; border-image: linear-gradient(135deg, #ff6b7b 0%, #d0142a 35%, #9f060a 70%, #5a0004 100%) 1; }
+  .frame::after { bottom: -2px; right: -2px; border-width: 0 4px 4px 0; border-image: linear-gradient(135deg, #ff5a6c 0%, #ba0d1a 40%, #7a0208 75%, #3a0003 100%) 1; }
 
   .duo img { filter: grayscale(1) contrast(1.15) brightness(.85); transition: filter .4s ease, transform .6s ease; }
   .duo::after { content: ""; position: absolute; inset: 0; background: #7A2B27; mix-blend-mode: multiply; opacity: .35; transition: opacity .4s ease; pointer-events: none; }
@@ -146,7 +148,7 @@
   }
 </style>
 </head>
-<body class="font-sans text-bone antialiased min-h-screen overflow-x-hidden">
+<body class="font-sans text-bone antialiased min-h-screen overflow-x-hidden" style="background-image: none">
 
 <!-- ============ HEADER ============ -->
 <header id="top" class="fixed top-0 inset-x-0 z-50 bg-black transition-colors duration-300" data-header data-overlay>
@@ -204,7 +206,7 @@
 </section>
 
 <!-- crossed tapes -->
-<div class="relative overflow-hidden bg-black py-14 md:py-20" aria-hidden="true">
+<div class="relative overflow-hidden py-14 md:py-20" style="background: linear-gradient(to bottom, #000 50%, #0A0A0A 50%)" aria-hidden="true">
   <div class="tape-wrap absolute -inset-x-[5%] top-1/2 -translate-y-1/2 rotate-[3deg]">
     <div class="bg-coal border-y border-line py-3 md:py-4 overflow-hidden">
       <div class="tape tape-rev font-slab uppercase text-xl md:text-3xl text-outline whitespace-nowrap"><span class="flex items-center gap-6 md:gap-10 pr-6 md:pr-10"><span>Nieuwe muziek</span><span class="text-blood">◆</span><span>Clips</span><span class="text-blood">◆</span><span>Live</span><span class="text-blood">◆</span><span>Boekingen</span><span class="text-blood">◆</span></span><span class="flex items-center gap-6 md:gap-10 pr-6 md:pr-10"><span>Nieuwe muziek</span><span class="text-blood">◆</span><span>Clips</span><span class="text-blood">◆</span><span>Live</span><span class="text-blood">◆</span><span>Boekingen</span><span class="text-blood">◆</span></span><span class="flex items-center gap-6 md:gap-10 pr-6 md:pr-10"><span>Nieuwe muziek</span><span class="text-blood">◆</span><span>Clips</span><span class="text-blood">◆</span><span>Live</span><span class="text-blood">◆</span><span>Boekingen</span><span class="text-blood">◆</span></span><span class="flex items-center gap-6 md:gap-10 pr-6 md:pr-10"><span>Nieuwe muziek</span><span class="text-blood">◆</span><span>Clips</span><span class="text-blood">◆</span><span>Live</span><span class="text-blood">◆</span><span>Boekingen</span><span class="text-blood">◆</span></span><span class="flex items-center gap-6 md:gap-10 pr-6 md:pr-10"><span>Nieuwe muziek</span><span class="text-blood">◆</span><span>Clips</span><span class="text-blood">◆</span><span>Live</span><span class="text-blood">◆</span><span>Boekingen</span><span class="text-blood">◆</span></span><span class="flex items-center gap-6 md:gap-10 pr-6 md:pr-10"><span>Nieuwe muziek</span><span class="text-blood">◆</span><span>Clips</span><span class="text-blood">◆</span><span>Live</span><span class="text-blood">◆</span><span>Boekingen</span><span class="text-blood">◆</span></span><span class="flex items-center gap-6 md:gap-10 pr-6 md:pr-10"><span>Nieuwe muziek</span><span class="text-blood">◆</span><span>Clips</span><span class="text-blood">◆</span><span>Live</span><span class="text-blood">◆</span><span>Boekingen</span><span class="text-blood">◆</span></span><span class="flex items-center gap-6 md:gap-10 pr-6 md:pr-10"><span>Nieuwe muziek</span><span class="text-blood">◆</span><span>Clips</span><span class="text-blood">◆</span><span>Live</span><span class="text-blood">◆</span><span>Boekingen</span><span class="text-blood">◆</span></span></div>
@@ -218,7 +220,7 @@
 </div>
 
 <!-- ============ EVENTS ============ -->
-<section id="events" class="py-20 md:py-28 scroll-mt-16">
+<section id="events" class="pt-10 md:pt-14 pb-20 md:pb-28 scroll-mt-16">
   <div class="max-w-6xl mx-auto px-4 sm:px-6">
     <div class="flex items-end justify-between gap-6 mb-10 md:mb-14 reveal">
       <div>
@@ -410,7 +412,7 @@
       <div class="tilt frame h-full flex flex-col" data-tilt data-tilt-max="6">
         <div class="group relative aspect-[4/3] overflow-hidden border-b border-line bg-coal">
           <img src="${a.img}" alt="Portret van ${esc(a.name)}" decoding="async" class="w-full h-full object-cover object-[center_15%] transition-transform duration-700 group-hover:scale-[1.04]">
-          <span class="absolute top-0 left-0 z-10 bg-blood font-mono text-[11px] tracking-[.25em] uppercase px-3 py-2">${esc(a.genre)}</span>
+          <span class="absolute top-0 left-0 z-10 bg-blood extrude text-bone font-mono text-[11px] tracking-[.25em] uppercase px-4 py-2.5">${esc(a.genre)}</span>
         </div>
         <div class="pop p-5 sm:p-7 flex-1 flex flex-col">
           <div class="flex items-baseline justify-between gap-4">
