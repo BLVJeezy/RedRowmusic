@@ -47,7 +47,8 @@
   .extrude-ghost:active { transform: translate(5px,5px); box-shadow: 1px 1px 0 #333; }
 
   /* ---------- Edelsteen-look: één geslepen steen (robijn voor rode knoppen/banner, diamant voor witte knoppen) ---------- */
-  .extrude.bg-blood, .extrude-ghost.border-bone\/80 { position: relative; overflow: hidden; isolation: isolate; }
+  :where(.extrude.bg-blood, .extrude-ghost.border-bone\/80) { position: relative; }
+  .extrude.bg-blood, .extrude-ghost.border-bone\/80 { overflow: hidden; isolation: isolate; }
   /* tafel van de steen: lichtbreking in schuine banen */
   .extrude.bg-blood {
     background-color: #9f060a;
@@ -259,7 +260,7 @@
     <div class="grid lg:grid-cols-[3fr_2fr] lg:min-h-[max(640px,calc(100svh-5rem))]">
       <div class="relative bg-coal overflow-hidden aspect-[3/4] sm:aspect-[4/3] lg:aspect-auto">
         <img src="${a.img}" alt="Portret van ${esc(a.name)}" class="absolute inset-0 w-full h-full object-cover object-[center_20%]">
-        <span class="absolute top-0 left-0 bg-blood font-mono text-[11px] tracking-[.25em] uppercase px-3 py-2">RedRow Artist</span>
+        <span class="absolute top-0 left-0 z-10 bg-blood extrude text-bone font-mono text-[11px] tracking-[.25em] uppercase px-4 py-2.5">RedRow Artist</span>
       </div>
       <div class="flex flex-col justify-center px-4 sm:px-10 lg:px-12 xl:px-16 py-12 lg:py-16">
         <a href="index.html#artists" class="self-start font-mono text-[11px] tracking-[.25em] uppercase text-ash hover:text-bone min-h-[44px] flex items-center">← Alle artiesten</a>

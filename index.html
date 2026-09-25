@@ -46,7 +46,8 @@
   .extrude-ghost:active { transform: translate(5px,5px); box-shadow: 1px 1px 0 #333; }
 
   /* ---------- Edelsteen-look: één geslepen steen (robijn voor rode knoppen/banner, diamant voor witte knoppen) ---------- */
-  .extrude.bg-blood, .extrude-ghost.border-bone\/80 { position: relative; overflow: hidden; isolation: isolate; }
+  :where(.extrude.bg-blood, .extrude-ghost.border-bone\/80) { position: relative; }
+  .extrude.bg-blood, .extrude-ghost.border-bone\/80 { overflow: hidden; isolation: isolate; }
   /* tafel van de steen: lichtbreking in schuine banen */
   .extrude.bg-blood {
     background-color: #9f060a;
@@ -410,7 +411,7 @@
       <div class="tilt frame h-full flex flex-col" data-tilt data-tilt-max="6">
         <div class="group relative aspect-[4/3] overflow-hidden border-b border-line bg-coal">
           <img src="${a.img}" alt="Portret van ${esc(a.name)}" decoding="async" class="w-full h-full object-cover object-[center_15%] transition-transform duration-700 group-hover:scale-[1.04]">
-          <span class="absolute top-0 left-0 z-10 bg-blood font-mono text-[11px] tracking-[.25em] uppercase px-3 py-2">${esc(a.genre)}</span>
+          <span class="absolute top-0 left-0 z-10 bg-blood extrude text-bone font-mono text-[11px] tracking-[.25em] uppercase px-4 py-2.5">${esc(a.genre)}</span>
         </div>
         <div class="pop p-5 sm:p-7 flex-1 flex flex-col">
           <div class="flex items-baseline justify-between gap-4">

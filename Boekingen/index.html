@@ -47,7 +47,8 @@
   .extrude-ghost:active { transform: translate(5px,5px); box-shadow: 1px 1px 0 #333; }
 
   /* ---------- Edelsteen-look: één geslepen steen (robijn voor rode knoppen/banner, diamant voor witte knoppen) ---------- */
-  .extrude.bg-blood, .extrude-ghost.border-bone\/80 { position: relative; overflow: hidden; isolation: isolate; }
+  :where(.extrude.bg-blood, .extrude-ghost.border-bone\/80) { position: relative; }
+  .extrude.bg-blood, .extrude-ghost.border-bone\/80 { overflow: hidden; isolation: isolate; }
   /* tafel van de steen: lichtbreking in schuine banen */
   .extrude.bg-blood {
     background-color: #9f060a;
