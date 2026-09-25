@@ -161,6 +161,15 @@
       tagline: 'Zachte stem, harde lines. Issahh maakt muziek voor de late uurtjes.',
       instagram: 'https://www.instagram.com/issahh_/',
       release: { title: 'Baddies in Belgica', url: 'https://issah.lnk.to/BADDIESINBELGICA' },
+      // Linkfire-servicelinks: sturen direct door naar het platform.
+      platforms: [
+        ['Spotify', 'https://issah.lnk.to/BADDIESINBELGICA/spotify'],
+        ['Apple Music', 'https://issah.lnk.to/BADDIESINBELGICA/applemusic'],
+        ['Deezer', 'https://issah.lnk.to/BADDIESINBELGICA/deezer'],
+        ['YouTube Music', 'https://issah.lnk.to/BADDIESINBELGICA/youtubemusic'],
+        ['Amazon Music', 'https://issah.lnk.to/BADDIESINBELGICA/amazonmusic'],
+        ['Tidal', 'https://issah.lnk.to/BADDIESINBELGICA/tidal']
+      ],
       facts: [['Genre', 'Hip-hop / R&B'], ['Basis', 'België'], ['Label', 'RedRow Music'], ['Nieuwste release', 'Baddies in Belgica']],
       quote: 'Ik schrijf over wat ik zie en wat ik voel — niet meer, niet minder.',
       bio: [
@@ -213,6 +222,15 @@
           </a>
           <a href="${esc(a.instagram)}" target="_blank" rel="noopener" class="bg-black border border-bone/80 text-bone font-mono text-sm tracking-[.2em] uppercase px-6 min-h-[60px] flex items-center justify-center extrude-ghost">Instagram</a>
         </div>
+        ${a.platforms ? `
+        <div class="mt-10">
+          <p class="font-mono text-[11px] tracking-[.25em] uppercase text-ash">${esc(a.release.title)} — luister op</p>
+          <ul class="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-2">
+            ${a.platforms.map(([n, u]) => `<li><a href="${esc(u)}" target="_blank" rel="noopener" class="group flex items-center justify-between gap-3 border border-line bg-coal hover:bg-blood hover:border-blood px-4 min-h-[52px] transition-colors">
+              <span class="text-sm font-medium">${esc(n)}</span><span class="font-mono text-xs text-blood group-hover:text-bone" aria-hidden="true">→</span>
+            </a></li>`).join('')}
+          </ul>
+        </div>` : ''}
       </div>
     </div>
   </section>
