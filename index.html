@@ -207,7 +207,7 @@
 <section class="relative md:pt-20 pb-16 md:pb-12 overflow-hidden bg-black">
   <div class="relative bg-black overflow-hidden">
     <video class="block w-full aspect-[4/5] md:aspect-video lg:aspect-auto lg:h-[calc(100svh-5rem)] lg:max-h-[1000px] object-cover object-center"
-      src="assets/hero.mp4" poster="assets/hero-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="RedRow Music — videoclip"></video>
+      id="heroVideo" src="assets/hero.mp4" poster="assets/hero-poster.jpg" autoplay muted playsinline preload="auto" aria-label="RedRow Music — videoclip"></video>
     <!-- donkere rand boven (leesbaarheid header op mobiel) en onder (overgang naar zwart) -->
     <div class="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/60 to-transparent md:hidden pointer-events-none"></div>
     <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black to-transparent pointer-events-none"></div>
@@ -440,6 +440,22 @@
   const icon = (n, cls = 'w-5 h-5') => icons[n] ? `<svg viewBox="0 0 24 24" class="${cls} shrink-0" fill="#${icons[n][0]}" aria-hidden="true"><path d="${icons[n][1]}"/></svg>` : '';
 
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  // ---------- Hero-video: clips na elkaar, daarna opnieuw ----------
+  const heroVideo = $('#heroVideo');
+  if (heroVideo) {
+    const playlist = ['assets/hero.mp4', 'assets/hero-2.mp4'];
+    let clip = 0;
+    heroVideo.addEventListener('ended', () => {
+      clip = (clip + 1) % playlist.length;
+      heroVideo.src = playlist[clip];
+      heroVideo.play().catch(() => {});
+    });
+    // volgende clip alvast laden zodat de overgang direct is
+    const pre = document.createElement('link');
+    pre.rel = 'preload'; pre.as = 'video'; pre.href = playlist[1];
+    document.head.appendChild(pre);
+  }
 
   // ---------- Stats ----------
   $('#statList').innerHTML = stats.map(st => {
