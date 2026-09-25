@@ -45,6 +45,14 @@
   .extrude-ghost:hover { transform: translate(-2px,-2px); box-shadow: 1px 1px 0 #9A3530, 2px 2px 0 #9A3530, 3px 3px 0 #9A3530, 4px 4px 0 #9A3530, 5px 5px 0 #9A3530, 6px 6px 0 #9A3530, 7px 7px 0 #9A3530, 8px 8px 0 #9A3530; }
   .extrude-ghost:active { transform: translate(5px,5px); box-shadow: 1px 1px 0 #333; }
 
+  /* Diamanten letters (artiestennamen) */
+  .gem-text {
+    background-image: linear-gradient(118deg, #6b727a 0%, #d9dfe6 16%, #ffffff 26%, #a9b1ba 38%, #6f767e 50%, #e8edf2 62%, #ffffff 70%, #9ca4ad 84%, #5f656d 100%);
+    background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(1px 1px 0 #50555c) drop-shadow(1px 1px 0 #2e3136) drop-shadow(0 0 8px rgba(255,255,255,.12));
+    animation: gemText 6s linear infinite;
+  }
+  @keyframes gemText { from { background-position: 100% 0; } to { background-position: -120% 0; } }
   /* ---------- Edelsteen-look: één geslepen steen (robijn voor rode knoppen/banner, diamant voor witte knoppen) ---------- */
   :where(.extrude.bg-blood, .extrude-ghost.border-bone\/80) { position: relative; }
   .extrude.bg-blood, .extrude-ghost.border-bone\/80 { overflow: hidden; isolation: isolate; }
@@ -570,7 +578,7 @@
         </div>
         <div class="pop p-5 sm:p-7 flex-1 flex flex-col">
           <div class="flex items-baseline justify-between gap-4">
-            <h3 class="font-slab text-2xl sm:text-3xl uppercase"><a href="${a.slug}/" class="hover:text-blood transition-colors">${esc(a.name)}</a></h3>
+            <h3 class="font-slab text-2xl sm:text-3xl uppercase"><a href="${a.slug}/" class="gem-text">${esc(a.name)}</a></h3>
             <span class="font-mono text-[11px] tracking-[.2em] text-ash shrink-0">${esc(a.handle)}</span>
           </div>
           <p class="mt-3 text-ash leading-relaxed text-[15px] flex-1">${esc(a.bio)}</p>
@@ -649,7 +657,7 @@
         <img src="${a.img}" alt="Portret van ${esc(a.name)}" loading="lazy" class="w-full h-full object-cover object-[center_20%] transition-transform duration-700 group-hover:scale-[1.04]">
       </div>
       <div class="px-1 pt-4 pb-2 flex items-baseline justify-between gap-3">
-        <span class="font-slab text-2xl uppercase group-hover:text-blood transition-colors">${esc(a.name)}</span>
+        <span class="font-slab text-2xl uppercase gem-text">${esc(a.name)}</span>
         <span class="font-mono text-[11px] tracking-[.2em] text-ash">${esc(a.handle)}</span>
       </div>
       <span class="px-1 pb-1 block font-mono text-[11px] tracking-[.25em] uppercase text-ash group-hover:text-bone">Bekijk profiel →</span>
