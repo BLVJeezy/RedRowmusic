@@ -88,6 +88,13 @@
   .tilt-stage { perspective: 1100px; }
   .tilt { transform-style: preserve-3d; transition: transform .25s ease-out; will-change: transform; }
   .tilt .pop { transform: translateZ(40px); }
+  /* Artiestenkaarten zweven en draaien licht (aparte translate/rotate, zodat de muis-tilt blijft werken) */
+  .float-card { animation: floatCard 6s ease-in-out infinite; box-shadow: 0 30px 40px -20px rgba(0,0,0,.9); }
+  #artistGrid article:nth-child(2) .float-card { animation-delay: -3s; }
+  @keyframes floatCard {
+    0%, 100% { translate: 0 0; rotate: y -3deg; }
+    50%      { translate: 0 -10px; rotate: y 3deg; }
+  }
 
 
 
@@ -427,7 +434,7 @@
   // ---------- Artists ----------
   $('#artistGrid').innerHTML = artists.map((a, i) => `
     <article class="tilt-stage reveal" data-tilt-stage>
-      <div class="tilt frame h-full flex flex-col" data-tilt data-tilt-max="6">
+      <div class="tilt float-card frame h-full flex flex-col" data-tilt data-tilt-max="6">
         <div class="group relative aspect-[4/3] overflow-hidden border-b border-line bg-coal">
           <img src="${a.img}" alt="Portret van ${esc(a.name)}" decoding="async" class="w-full h-full object-cover object-[center_15%] transition-transform duration-700 group-hover:scale-[1.04]">
           <span class="absolute top-0 left-0 z-10 bg-blood extrude text-bone font-mono text-[11px] tracking-[.25em] uppercase px-4 py-2.5">${esc(a.genre)}</span>
