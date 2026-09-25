@@ -150,6 +150,8 @@
     50%  { transform: scale(var(--sway-scale)) rotate(1.4deg); }
     100% { transform: scale(var(--sway-scale)) rotate(-1.4deg); }
   }
+  .hero-cta-glow { background: radial-gradient(ellipse 60% 55% at 50% 78%, rgba(0,0,0,.72), rgba(0,0,0,.35) 55%, transparent 80%); }
+  @media (max-width: 767px) { .hero-cta-glow { background: radial-gradient(ellipse 95% 50% at 50% 82%, rgba(0,0,0,.75), rgba(0,0,0,.35) 60%, transparent 85%); } }
   [data-header].scrolled a, [data-header].scrolled button { text-shadow: 0 1px 10px rgba(0,0,0,.95); filter: drop-shadow(0 1px 6px rgba(0,0,0,.8)); }
   #mobileMenu { transform: translateX(100%); transition: transform .35s cubic-bezier(.7,0,.2,1); }
   #mobileMenu.open { transform: translateX(0); }
@@ -204,19 +206,19 @@
 
 <main>
 <!-- ============ HERO ============ -->
-<section class="relative md:pt-20 pb-16 md:pb-12 overflow-hidden bg-black">
+<section class="relative md:pt-20 overflow-hidden bg-black">
   <div class="relative bg-black overflow-hidden">
-    <video class="block w-full aspect-[4/5] md:aspect-video lg:aspect-auto lg:h-[calc(100svh-5rem)] lg:max-h-[1000px] object-cover object-center"
+    <video class="block w-full h-[100svh] min-h-[560px] md:h-[calc(100svh-5rem)] md:min-h-[520px] object-cover object-center"
       id="heroVideo" src="assets/hero.mp4" poster="assets/hero-poster.jpg" autoplay muted playsinline preload="auto" aria-label="RedRow Music — videoclip"></video>
-    <!-- donkere rand boven (leesbaarheid header op mobiel) en onder (overgang naar zwart) -->
+    <!-- lichte schaduw boven (leesbaarheid header op mobiel) -->
     <div class="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/60 to-transparent md:hidden pointer-events-none"></div>
-    <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black to-transparent pointer-events-none"></div>
-  </div>
+    <!-- zachte donkere gloed alleen achter de knoppen -->
+    <div class="hero-cta-glow absolute inset-x-0 bottom-0 h-[55%] pointer-events-none"></div>
 
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center pt-10 md:pt-4">
-    <p class="font-mono text-[10px] sm:text-xs tracking-[.2em] sm:tracking-[.4em] text-blood uppercase">— Onafhankelijk label · Sinds 2019 —</p>
+  <div class="absolute inset-x-0 bottom-0 z-10 max-w-6xl mx-auto px-4 sm:px-6 text-center pb-24 md:pb-28">
+    <p class="font-mono text-[10px] sm:text-xs tracking-[.2em] sm:tracking-[.4em] text-bone/90 uppercase [text-shadow:0_1px_8px_rgba(0,0,0,.9)]">— Onafhankelijk label · Sinds 2019 —</p>
     <h1 class="sr-only">RedRow Music</h1>
-    <div class="mt-10 md:mt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 sm:gap-6 max-w-sm sm:max-w-none mx-auto">
+    <div class="mt-5 md:mt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 sm:gap-6 max-w-sm sm:max-w-none mx-auto">
       <button type="button" id="heroArtistsBtn" data-panel="heroArtists" aria-expanded="false" aria-controls="heroArtists" class="bg-blood text-bone font-mono text-sm tracking-[.2em] uppercase px-8 py-4 min-h-[52px] flex items-center justify-center gap-3 extrude">
         Ontdek Artiesten
         <svg class="dd-caret w-3 h-3 transition-transform" viewBox="0 0 12 8" aria-hidden="true"><path d="M0 0h12L6 8z" fill="currentColor"/></svg>
@@ -226,6 +228,7 @@
         <svg class="dd-caret w-3 h-3 transition-transform" viewBox="0 0 12 8" aria-hidden="true"><path d="M0 0h12L6 8z" fill="currentColor"/></svg>
       </button>
     </div>
+  </div>
   </div>
   <!-- Artiesten-paneel onder de hero-knoppen -->
   <div id="heroArtists" class="hero-panel grid grid-rows-[0fr] transition-[grid-template-rows] duration-500">
@@ -246,7 +249,7 @@
 </section>
 
 <!-- crossed tapes -->
-<div class="relative overflow-hidden py-14 md:py-20" style="background: linear-gradient(to bottom, #000 50%, #0A0A0A 50%)" aria-hidden="true">
+<div class="relative z-10 overflow-hidden py-14 md:py-20 -mt-14 md:-mt-20" style="background: linear-gradient(to bottom, transparent 50%, #0A0A0A 50%)" aria-hidden="true">
   <div class="tape-wrap absolute -inset-x-[5%] top-1/2 -translate-y-1/2 rotate-[3deg]">
     <div class="bg-coal border-y border-line py-3 md:py-4 overflow-hidden">
       <div class="tape tape-rev font-slab uppercase text-xl md:text-3xl text-outline whitespace-nowrap"><span class="flex items-center gap-6 md:gap-10 pr-6 md:pr-10"><span>Nieuwe muziek</span><span class="text-blood">◆</span><span>Clips</span><span class="text-blood">◆</span><span>Live</span><span class="text-blood">◆</span><span>Boekingen</span><span class="text-blood">◆</span></span><span class="flex items-center gap-6 md:gap-10 pr-6 md:pr-10"><span>Nieuwe muziek</span><span class="text-blood">◆</span><span>Clips</span><span class="text-blood">◆</span><span>Live</span><span class="text-blood">◆</span><span>Boekingen</span><span class="text-blood">◆</span></span><span class="flex items-center gap-6 md:gap-10 pr-6 md:pr-10"><span>Nieuwe muziek</span><span class="text-blood">◆</span><span>Clips</span><span class="text-blood">◆</span><span>Live</span><span class="text-blood">◆</span><span>Boekingen</span><span class="text-blood">◆</span></span><span class="flex items-center gap-6 md:gap-10 pr-6 md:pr-10"><span>Nieuwe muziek</span><span class="text-blood">◆</span><span>Clips</span><span class="text-blood">◆</span><span>Live</span><span class="text-blood">◆</span><span>Boekingen</span><span class="text-blood">◆</span></span><span class="flex items-center gap-6 md:gap-10 pr-6 md:pr-10"><span>Nieuwe muziek</span><span class="text-blood">◆</span><span>Clips</span><span class="text-blood">◆</span><span>Live</span><span class="text-blood">◆</span><span>Boekingen</span><span class="text-blood">◆</span></span><span class="flex items-center gap-6 md:gap-10 pr-6 md:pr-10"><span>Nieuwe muziek</span><span class="text-blood">◆</span><span>Clips</span><span class="text-blood">◆</span><span>Live</span><span class="text-blood">◆</span><span>Boekingen</span><span class="text-blood">◆</span></span><span class="flex items-center gap-6 md:gap-10 pr-6 md:pr-10"><span>Nieuwe muziek</span><span class="text-blood">◆</span><span>Clips</span><span class="text-blood">◆</span><span>Live</span><span class="text-blood">◆</span><span>Boekingen</span><span class="text-blood">◆</span></span><span class="flex items-center gap-6 md:gap-10 pr-6 md:pr-10"><span>Nieuwe muziek</span><span class="text-blood">◆</span><span>Clips</span><span class="text-blood">◆</span><span>Live</span><span class="text-blood">◆</span><span>Boekingen</span><span class="text-blood">◆</span></span></div>
