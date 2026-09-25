@@ -38,9 +38,9 @@
   }
 
   /* Hard extruded 3D shadow — the core depth language of the site */
-  .extrude { box-shadow: 1px 1px 0 #4E1D1A, 2px 2px 0 #4E1D1A, 3px 3px 0 #4E1D1A, 4px 4px 0 #4E1D1A, 5px 5px 0 #4E1D1A, 6px 6px 0 #4E1D1A; transition: transform .15s ease, box-shadow .15s ease; }
-  .extrude:hover { transform: translate(-2px,-2px); box-shadow: 1px 1px 0 #4E1D1A, 2px 2px 0 #4E1D1A, 3px 3px 0 #4E1D1A, 4px 4px 0 #4E1D1A, 5px 5px 0 #4E1D1A, 6px 6px 0 #4E1D1A, 7px 7px 0 #4E1D1A, 8px 8px 0 #4E1D1A; }
-  .extrude:active { transform: translate(5px,5px); box-shadow: 1px 1px 0 #4E1D1A; }
+  .extrude { box-shadow: 1px 1px 0 #4a0006, 2px 2px 0 #4a0006, 3px 3px 0 #4a0006, 4px 4px 0 #4a0006, 5px 5px 0 #4a0006, 6px 6px 0 #4a0006; transition: transform .15s ease, box-shadow .15s ease; }
+  .extrude:hover { transform: translate(-2px,-2px); box-shadow: 1px 1px 0 #4a0006, 2px 2px 0 #4a0006, 3px 3px 0 #4a0006, 4px 4px 0 #4a0006, 5px 5px 0 #4a0006, 6px 6px 0 #4a0006, 7px 7px 0 #4a0006, 8px 8px 0 #4a0006; }
+  .extrude:active { transform: translate(5px,5px); box-shadow: 1px 1px 0 #4a0006; }
   .extrude-ghost { box-shadow: 1px 1px 0 #333, 2px 2px 0 #333, 3px 3px 0 #333, 4px 4px 0 #333, 5px 5px 0 #333, 6px 6px 0 #333; transition: transform .15s ease, box-shadow .15s ease; }
   .extrude-ghost:hover { transform: translate(-2px,-2px); box-shadow: 1px 1px 0 #9A3530, 2px 2px 0 #9A3530, 3px 3px 0 #9A3530, 4px 4px 0 #9A3530, 5px 5px 0 #9A3530, 6px 6px 0 #9A3530, 7px 7px 0 #9A3530, 8px 8px 0 #9A3530; }
   .extrude-ghost:active { transform: translate(5px,5px); box-shadow: 1px 1px 0 #333; }
@@ -49,10 +49,10 @@
   .extrude.bg-blood, .extrude-ghost.border-bone\/80 { position: relative; overflow: hidden; isolation: isolate; }
   /* tafel van de steen: lichtbreking in schuine banen */
   .extrude.bg-blood {
-    background-color: #7a1f1b;
+    background-color: #9f060a;
     background-image:
-      radial-gradient(120% 90% at 30% 0%, rgba(255,170,160,.45), transparent 55%),
-      linear-gradient(118deg, #3f0c0a 0%, #8f2621 18%, #e06258 30%, #a3302a 38%, #52120f 50%, #b33a33 64%, #ff9288 73%, #92271f 82%, #3a0b09 100%);
+      radial-gradient(120% 90% at 30% 0%, rgba(255,110,130,.45), transparent 55%),
+      linear-gradient(118deg, #3a0003 0%, #7a0208 18%, #d0142a 30%, #9f060a 38%, #5a0004 50%, #ba0d1a 64%, #ff5a6c 73%, #8a0510 82%, #320002 100%);
     font-weight: 600;
     text-shadow: 0 1px 0 #1c0605, 0 0 3px #1c0605, 0 0 12px rgba(28,6,5,.85);
   }
@@ -67,7 +67,7 @@
   /* facetten: afgeschuinde randen (trapgeslepen) + dunne rosé-zilveren zetting */
   .extrude.bg-blood::before, .extrude-ghost.border-bone\/80::before {
     content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-    border: 6px solid; border-color: #ff9d94 #a2302a #360a08 #d0524a;
+    border: 6px solid; border-color: #ff6b7b #9a0610 #2e0003 #c8102a;
     box-shadow: inset 0 0 0 1px rgba(255,255,255,.35), 0 0 0 1px #efe0d9;
   }
   .extrude-ghost.border-bone\/80::before { border-color: #ffffff #a9b0b9 #4a4e55 #dde2e8; box-shadow: inset 0 0 0 1px rgba(255,255,255,.6), 0 0 0 1px #f3f5f7; }
