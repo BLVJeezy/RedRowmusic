@@ -70,6 +70,8 @@
   /* marquee: right → left */
   .marquee { mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
   .marquee-track { display: flex; width: max-content; animation: marquee 48s linear infinite; }
+  .clip-scroller { scrollbar-width: none; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
+  .clip-scroller::-webkit-scrollbar { display: none; }
   .marquee:hover .marquee-track, .marquee:focus-within .marquee-track { animation-play-state: paused; }
   @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
@@ -78,6 +80,7 @@
   .field::placeholder { color: #555; }
   select.field { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 0h12L6 8z' fill='%23A31D1D'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; }
 
+  [data-header].scrolled a, [data-header].scrolled button { text-shadow: 0 1px 10px rgba(0,0,0,.95); filter: drop-shadow(0 1px 6px rgba(0,0,0,.8)); }
   #mobileMenu { transform: translateX(100%); transition: transform .35s cubic-bezier(.7,0,.2,1); }
   #mobileMenu.open { transform: translateX(0); }
   .burger span { display: block; height: 2px; width: 22px; background: #F3F3F3; transition: transform .25s, opacity .25s; }
@@ -98,10 +101,10 @@
 <body class="font-sans text-bone antialiased min-h-screen overflow-x-hidden">
 
 <!-- ============ HEADER ============ -->
-<header id="top" class="fixed top-0 inset-x-0 z-50 border-b border-line/0 transition-colors duration-300" data-header>
+<header id="top" class="fixed top-0 inset-x-0 z-50 bg-black transition-colors duration-300" data-header>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 md:h-20 flex items-center justify-between">
     <a href="#top" class="flex items-center gap-3 group" aria-label="RedRow Music home">
-      <span class="w-10 h-10 bg-blood flex items-center justify-center font-slab text-2xl text-bone extrude leading-none pb-0.5">R</span>
+      <span class="w-11 h-11 md:w-12 md:h-12 bg-black overflow-hidden shrink-0"><img src="assets/logo.webp" alt="" width="1254" height="1254" class="w-full h-full scale-[1.35]"></span>
       <span class="font-mono text-sm tracking-[.3em] font-semibold">REDROW<span class="text-blood">/</span>MUSIC</span>
     </a>
     <nav class="hidden md:flex items-center gap-8 font-mono text-xs tracking-[.25em] uppercase">
@@ -117,7 +120,7 @@
 </header>
 
 <!-- Mobile menu -->
-<div id="mobileMenu" class="md:hidden fixed inset-0 top-16 z-40 bg-ink border-t border-line flex flex-col" aria-hidden="true">
+<div id="mobileMenu" class="md:hidden fixed inset-0 top-16 z-40 bg-black border-t border-line flex flex-col" aria-hidden="true">
   <nav class="flex-1 flex flex-col px-4 pt-6">
     <a href="#events" class="mnav flex items-baseline justify-between py-5 border-b border-line"><span class="font-slab text-4xl">Events</span><span class="font-mono text-xs text-blood">01</span></a>
     <a href="#artists" class="mnav flex items-baseline justify-between py-5 border-b border-line"><span class="font-slab text-4xl">Artiesten</span><span class="font-mono text-xs text-blood">02</span></a>
@@ -129,7 +132,7 @@
 
 <main>
 <!-- ============ HERO ============ -->
-<section class="relative pt-16 md:pt-20 pb-16 md:pb-24 overflow-hidden">
+<section class="relative pt-16 md:pt-20 pb-16 md:pb-24 overflow-hidden bg-black">
   <picture class="block bg-black">
     <source media="(min-width: 768px)" srcset="assets/hero-desktop.webp" width="1448" height="1086">
     <img src="assets/redrow-hero.webp" alt="RedRow Music — iced-out R hanger met RED ROW belettering" width="1312" height="1195" fetchpriority="high" draggable="false"
@@ -195,8 +198,8 @@
     </div>
     <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="hidden sm:flex font-mono text-xs tracking-[.25em] uppercase text-ash hover:text-bone border-b border-blood pb-1">YouTube Kanaal →</a>
   </div>
-  <div class="marquee overflow-hidden py-4">
-    <div id="clipTrack" class="marquee-track gap-5 md:gap-7 pr-5 md:pr-7"></div>
+  <div id="clipScroller" class="marquee clip-scroller overflow-x-auto py-4">
+    <div id="clipTrack" class="flex w-max gap-5 md:gap-7 pr-5 md:pr-7"></div>
   </div>
 </section>
 
@@ -269,7 +272,7 @@
 <footer class="border-t border-line">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 flex flex-col md:flex-row gap-6 md:items-center justify-between">
     <div class="flex items-center gap-3">
-      <span class="w-8 h-8 bg-blood flex items-center justify-center font-slab text-lg leading-none">R</span>
+      <img src="assets/logo.webp" alt="" width="1254" height="1254" loading="lazy" class="w-10 h-10 bg-black">
       <span class="font-mono text-xs tracking-[.3em]">REDROW<span class="text-blood">/</span>MUSIC</span>
     </div>
     <div class="flex gap-6 font-mono text-xs tracking-[.2em] uppercase text-ash">
@@ -378,24 +381,48 @@
   const clipHTML = [...clips, ...clips].map(clipCard).join('');
   $('#clipTrack').innerHTML = clipHTML + clipHTML.replaceAll('<a href', '<a aria-hidden="true" tabindex="-1" href');
 
+  // Clips: native swipe/scroll + JS auto-scroll right → left, pauses while touched/hovered.
+  const scroller = $('#clipScroller'), track = $('#clipTrack');
+  let pos = 0, last = 0, paused = false, resumeT;
+  const half = () => track.scrollWidth / 2;
+  const pause = () => { paused = true; clearTimeout(resumeT); };
+  const resume = (ms = 0) => { clearTimeout(resumeT); resumeT = setTimeout(() => { pos = scroller.scrollLeft; paused = false; }, ms); };
+  scroller.addEventListener('pointerenter', e => e.pointerType === 'mouse' && pause());
+  scroller.addEventListener('pointerleave', e => e.pointerType === 'mouse' && resume());
+  scroller.addEventListener('touchstart', pause, { passive: true });
+  scroller.addEventListener('touchend', () => resume(2500), { passive: true });
+  scroller.addEventListener('focusin', pause);
+  scroller.addEventListener('focusout', () => resume());
+  scroller.addEventListener('scroll', () => {
+    const h = half();
+    if (scroller.scrollLeft >= h) scroller.scrollLeft -= h;
+    else if (scroller.scrollLeft <= 0 && paused) scroller.scrollLeft += h;
+    if (paused) pos = scroller.scrollLeft;
+  }, { passive: true });
+  const tick = t => {
+    const dt = last ? Math.min(t - last, 50) : 0; last = t;
+    if (!paused && !reduce) { pos += dt * 0.05; if (pos >= half()) pos -= half(); scroller.scrollLeft = pos; }
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+
   // ---------- Header on scroll ----------
+  const burger = $('#burger'), menu = $('#mobileMenu');
   const header = $('[data-header]');
   const onScroll = () => {
     const s = scrollY > 20;
-    header.classList.toggle('bg-ink/90', s);
-    header.classList.toggle('backdrop-blur', s);
-    header.classList.toggle('border-line', s);
-    header.classList.toggle('border-line/0', !s);
+    const open = menu.classList.contains('open');
+    header.classList.toggle('bg-black', !s || open);
+    header.classList.toggle('scrolled', s && !open);
   };
   addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
   // ---------- Mobile menu ----------
-  const burger = $('#burger'), menu = $('#mobileMenu');
   const setMenu = open => {
     burger.classList.toggle('open', open); menu.classList.toggle('open', open);
     burger.setAttribute('aria-expanded', open); menu.setAttribute('aria-hidden', !open);
     document.body.style.overflow = open ? 'hidden' : '';
-    if (open) header.classList.add('bg-ink'); else header.classList.remove('bg-ink');
+    onScroll();
   };
   burger.addEventListener('click', () => setMenu(!menu.classList.contains('open')));
   $$('.mnav').forEach(a => a.addEventListener('click', () => setMenu(false)));
