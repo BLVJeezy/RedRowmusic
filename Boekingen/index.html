@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<base href="../">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Boekingen — RedRow Music</title>
+<meta name="description" content="RedRow Music — onafhankelijk artiestenlabel. The sound of RedRow.">
+<meta name="theme-color" content="#0A0A0A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      borderRadius: { none: '0', DEFAULT: '0' },
+      extend: {
+        colors: { ink: '#0A0A0A', coal: '#121212', line: '#262626', blood: '#9A3530', oxblood: '#7A2B27', bone: '#F3F3F3', ash: '#999999' },
+        fontFamily: { slab: ['"Alfa Slab One"', 'serif'], mono: ['"IBM Plex Mono"', 'monospace'], sans: ['"IBM Plex Sans"', 'sans-serif'] }
+      }
+    }
+  }
+</script>
+<style>
+  *, *::before, *::after { border-radius: 0 !important; }
+  html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+  body {
+    background-color: #0A0A0A;
+    background-image:
+      radial-gradient(ellipse 70% 55% at 50% 0%, rgba(154,53,48,.22) 0%, rgba(40,20,20,.35) 35%, rgba(10,10,10,0) 70%),
+      radial-gradient(ellipse 40% 30% at 50% 12%, rgba(243,243,243,.06), transparent 70%);
+    background-repeat: no-repeat;
+  }
+  /* film grain */
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 60; opacity: .07;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Hard extruded 3D shadow — the core depth language of the site */
+  .extrude { box-shadow: 1px 1px 0 #4E1D1A, 2px 2px 0 #4E1D1A, 3px 3px 0 #4E1D1A, 4px 4px 0 #4E1D1A, 5px 5px 0 #4E1D1A, 6px 6px 0 #4E1D1A; transition: transform .15s ease, box-shadow .15s ease; }
+  .extrude:hover { transform: translate(-2px,-2px); box-shadow: 1px 1px 0 #4E1D1A, 2px 2px 0 #4E1D1A, 3px 3px 0 #4E1D1A, 4px 4px 0 #4E1D1A, 5px 5px 0 #4E1D1A, 6px 6px 0 #4E1D1A, 7px 7px 0 #4E1D1A, 8px 8px 0 #4E1D1A; }
+  .extrude:active { transform: translate(5px,5px); box-shadow: 1px 1px 0 #4E1D1A; }
+  .extrude-ghost { box-shadow: 1px 1px 0 #333, 2px 2px 0 #333, 3px 3px 0 #333, 4px 4px 0 #333, 5px 5px 0 #333, 6px 6px 0 #333; transition: transform .15s ease, box-shadow .15s ease; }
+  .extrude-ghost:hover { transform: translate(-2px,-2px); box-shadow: 1px 1px 0 #9A3530, 2px 2px 0 #9A3530, 3px 3px 0 #9A3530, 4px 4px 0 #9A3530, 5px 5px 0 #9A3530, 6px 6px 0 #9A3530, 7px 7px 0 #9A3530, 8px 8px 0 #9A3530; }
+  .extrude-ghost:active { transform: translate(5px,5px); box-shadow: 1px 1px 0 #333; }
+
+  .slab-3d { text-shadow: 1px 1px 0 #5C2320, 2px 2px 0 #5C2320, 3px 3px 0 #4E1D1A, 4px 4px 0 #431916, 5px 5px 0 #331412, 6px 6px 14px rgba(0,0,0,.8); }
+
+  /* 3D tilt surfaces */
+  .tilt-stage { perspective: 1100px; }
+  .tilt { transform-style: preserve-3d; transition: transform .25s ease-out; will-change: transform; }
+  .tilt .pop { transform: translateZ(40px); }
+
+
+
+  /* frame with red corner ticks */
+  .frame { position: relative; border: 1px solid #262626; background: #0d0d0d; }
+  .frame::before, .frame::after { content: ""; position: absolute; width: 14px; height: 14px; border-color: #9A3530; border-style: solid; z-index: 3; pointer-events: none; }
+  .frame::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+  .frame::after { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+  .duo img { filter: grayscale(1) contrast(1.15) brightness(.85); transition: filter .4s ease, transform .6s ease; }
+  .duo::after { content: ""; position: absolute; inset: 0; background: #7A2B27; mix-blend-mode: multiply; opacity: .35; transition: opacity .4s ease; pointer-events: none; }
+  .duo:hover img { filter: grayscale(.2) contrast(1.1) brightness(.95); transform: scale(1.04); }
+  .duo:hover::after { opacity: .1; }
+
+  .scanlines::before { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(0,0,0,.25) 0 1px, transparent 1px 3px); }
+
+  /* marquee: right → left */
+  .marquee { mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+  .marquee-track { display: flex; width: max-content; animation: marquee 48s linear infinite; }
+  .clip-scroller { scrollbar-width: none; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
+  .clip-scroller::-webkit-scrollbar { display: none; }
+  .marquee:hover .marquee-track, .marquee:focus-within .marquee-track { animation-play-state: paused; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  .field { background: #0d0d0d; border: 1px solid #2e2e2e; color: #F3F3F3; transition: border-color .15s, box-shadow .15s; }
+  .field:focus { outline: none; border-color: #9A3530; box-shadow: 4px 4px 0 #4E1D1A; }
+  .field::placeholder { color: #555; }
+  select.field { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 0h12L6 8z' fill='%239A3530'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; }
+
+  [data-header].scrolled a, [data-header].scrolled button { text-shadow: 0 1px 10px rgba(0,0,0,.95); filter: drop-shadow(0 1px 6px rgba(0,0,0,.8)); }
+  #mobileMenu { transform: translateX(100%); transition: transform .35s cubic-bezier(.7,0,.2,1); }
+  #mobileMenu.open { transform: translateX(0); }
+  .burger span { display: block; height: 2px; width: 22px; background: #F3F3F3; transition: transform .25s, opacity .25s; }
+  .burger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .burger.open span:nth-child(2) { opacity: 0; }
+  .burger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track { animation: none; }
+    .reveal { opacity: 1; transform: none; }
+    .tilt { transition: none; }
+  }
+</style>
+</head>
+<body class="font-sans text-bone antialiased min-h-screen overflow-x-hidden">
+
+<!-- ============ HEADER ============ -->
+<header id="top" class="fixed top-0 inset-x-0 z-50 bg-black transition-colors duration-300" data-header>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 md:h-20 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3 group" aria-label="RedRow Music home">
+      <span class="w-11 h-11 md:w-12 md:h-12 bg-black overflow-hidden shrink-0"><img src="assets/logo.webp" alt="" width="1254" height="1254" class="w-full h-full scale-[1.35]"></span>
+      <span class="font-mono text-sm tracking-[.3em] font-semibold">REDROW<span class="text-blood">/</span>MUSIC</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-8 font-mono text-xs tracking-[.25em] uppercase">
+      <a href="index.html#events" class="text-ash hover:text-bone transition-colors">Events</a>
+      <a href="index.html#artists" class="text-ash hover:text-bone transition-colors">Artiesten</a>
+      <a href="index.html#clips" class="text-ash hover:text-bone transition-colors">Clips</a>
+      <a href="Boekingen/" class="text-bone transition-colors" aria-current="page">Boekingen</a>
+      <a href="index.html#contact" class="bg-blood text-bone px-5 py-3 extrude">Contact</a>
+    </nav>
+    <button id="burger" class="burger md:hidden w-12 h-12 -mr-2 flex flex-col items-center justify-center gap-1" aria-label="Menu openen" aria-expanded="false" aria-controls="mobileMenu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile menu -->
+<div id="mobileMenu" class="md:hidden fixed inset-0 top-16 z-40 bg-black border-t border-line flex flex-col" aria-hidden="true">
+  <nav class="flex-1 flex flex-col px-4 pt-6">
+    <a href="index.html#events" class="mnav flex items-baseline justify-between py-5 border-b border-line"><span class="font-slab text-4xl">Events</span><span class="font-mono text-xs text-blood">01</span></a>
+    <a href="index.html#artists" class="mnav flex items-baseline justify-between py-5 border-b border-line"><span class="font-slab text-4xl">Artiesten</span><span class="font-mono text-xs text-blood">02</span></a>
+    <a href="index.html#clips" class="mnav flex items-baseline justify-between py-5 border-b border-line"><span class="font-slab text-4xl">Clips</span><span class="font-mono text-xs text-blood">03</span></a>
+    <a href="Boekingen/" class="mnav flex items-baseline justify-between py-5 border-b border-line"><span class="font-slab text-4xl">Boekingen</span><span class="font-mono text-xs text-blood">04</span></a>
+    <a href="index.html#contact" class="mnav flex items-baseline justify-between py-5 border-b border-line"><span class="font-slab text-4xl">Contact</span><span class="font-mono text-xs text-blood">05</span></a>
+  </nav>
+  <p class="px-4 pb-8 font-mono text-[11px] tracking-[.25em] text-ash uppercase">Est. Amsterdam — Rec / Mix / Release</p>
+</div>
+
+<main class="bg-black">
+  <!-- Hero -->
+  <section class="pt-28 md:pt-36 pb-16 md:pb-24 border-b border-line">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <p class="font-mono text-xs tracking-[.35em] text-blood uppercase">RedRow Music / Boekingen</p>
+      <h1 class="mt-4 font-slab uppercase leading-[.9] text-[clamp(3rem,11vw,7.5rem)] slab-3d">Boek een<br>RedRow artiest</h1>
+      <p class="mt-8 max-w-xl text-ash text-lg leading-relaxed">Voor clubs, festivals, private events en brands. Lees hieronder hoe een boeking verloopt, wat we van de organisator verwachten en onder welke voorwaarden we werken.</p>
+      <div class="mt-10 flex flex-col sm:flex-row gap-4 sm:gap-6 max-w-sm sm:max-w-none">
+        <a href="index.html?onderwerp=boeking#contact" class="bg-blood text-bone font-mono text-sm tracking-[.2em] uppercase px-8 min-h-[56px] flex items-center justify-center gap-3 extrude">Boekingsaanvraag <span aria-hidden="true">→</span></a>
+        <a href="#voorwaarden" class="bg-black border border-bone/80 text-bone font-mono text-sm tracking-[.2em] uppercase px-8 min-h-[56px] flex items-center justify-center extrude-ghost">Voorwaarden lezen</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Steps -->
+  <section class="py-16 md:py-24 border-b border-line bg-ink">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <p class="font-mono text-xs tracking-[.35em] text-blood uppercase reveal">01 / Werkwijze</p>
+      <h2 class="mt-3 font-slab text-4xl sm:text-5xl uppercase slab-3d reveal">Zo werkt het</h2>
+      <ol class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <li class="reveal frame p-6 min-h-[180px] flex flex-col"><span class="font-slab text-5xl text-blood leading-none">1</span><span class="mt-5 font-mono text-xs tracking-[.25em] uppercase">Aanvraag</span><span class="mt-3 text-ash text-[15px] leading-relaxed">Vul het contactformulier in met datum, locatie, type event en budget.</span></li><li class="reveal frame p-6 min-h-[180px] flex flex-col"><span class="font-slab text-5xl text-blood leading-none">2</span><span class="mt-5 font-mono text-xs tracking-[.25em] uppercase">Offerte</span><span class="mt-3 text-ash text-[15px] leading-relaxed">Binnen drie werkdagen ontvang je een voorstel op maat.</span></li><li class="reveal frame p-6 min-h-[180px] flex flex-col"><span class="font-slab text-5xl text-blood leading-none">3</span><span class="mt-5 font-mono text-xs tracking-[.25em] uppercase">Overeenkomst</span><span class="mt-3 text-ash text-[15px] leading-relaxed">Na akkoord teken je de overeenkomst en betaal je het voorschot.</span></li><li class="reveal frame p-6 min-h-[180px] flex flex-col"><span class="font-slab text-5xl text-blood leading-none">4</span><span class="mt-5 font-mono text-xs tracking-[.25em] uppercase">Showtime</span><span class="mt-3 text-ash text-[15px] leading-relaxed">We stemmen de rider en timing af — en de artiest levert.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Reglement -->
+  <section id="reglement" class="py-16 md:py-24 border-b border-line scroll-mt-20">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex items-end justify-between gap-6 reveal">
+        <div>
+          <p class="font-mono text-xs tracking-[.35em] text-blood uppercase">02 / Reglement</p>
+          <h2 class="mt-3 font-slab text-4xl sm:text-5xl uppercase slab-3d">Rider &amp; productie</h2>
+        </div>
+        <p class="hidden md:block max-w-xs text-ash text-sm leading-relaxed">De minimale vereisten voor elk optreden. De volledige technische rider ontvang je bij de offerte.</p>
+      </div>
+      <dl class="mt-10 grid sm:grid-cols-2 border-t border-l border-line">
+        <div class="reveal border-r border-b border-line p-6 sm:p-8"><dt class="font-mono text-xs tracking-[.25em] uppercase text-blood">Techniek</dt><dd class="mt-3 text-ash leading-relaxed">Professionele PA en monitoring, een DJ-set-up of backline volgens de technische rider, en een geluidstechnicus ter plaatse.</dd></div><div class="reveal border-r border-b border-line p-6 sm:p-8"><dt class="font-mono text-xs tracking-[.25em] uppercase text-blood">Soundcheck</dt><dd class="mt-3 text-ash leading-relaxed">Een soundcheck van minimaal 30 minuten, op een tijdstip dat vooraf is afgesproken.</dd></div><div class="reveal border-r border-b border-line p-6 sm:p-8"><dt class="font-mono text-xs tracking-[.25em] uppercase text-blood">Backstage</dt><dd class="mt-3 text-ash leading-relaxed">Een afsluitbare, verwarmde kleedruimte met spiegel, stoelen, water en frisdrank voor artiest en crew.</dd></div><div class="reveal border-r border-b border-line p-6 sm:p-8"><dt class="font-mono text-xs tracking-[.25em] uppercase text-blood">Hospitality</dt><dd class="mt-3 text-ash leading-relaxed">Een warme maaltijd of buy-out voor artiest en crew, afhankelijk van het tijdstip van het optreden.</dd></div><div class="reveal border-r border-b border-line p-6 sm:p-8"><dt class="font-mono text-xs tracking-[.25em] uppercase text-blood">Gastenlijst</dt><dd class="mt-3 text-ash leading-relaxed">Standaard vier plaatsen op de gastenlijst per artiest, tenzij anders overeengekomen.</dd></div><div class="reveal border-r border-b border-line p-6 sm:p-8"><dt class="font-mono text-xs tracking-[.25em] uppercase text-blood">Veiligheid</dt><dd class="mt-3 text-ash leading-relaxed">Security bij podium en backstage, en een veilige aan- en afvoer van artiest en crew.</dd></div><div class="reveal border-r border-b border-line p-6 sm:p-8"><dt class="font-mono text-xs tracking-[.25em] uppercase text-blood">Parkeren</dt><dd class="mt-3 text-ash leading-relaxed">Minstens één gratis parkeerplaats dicht bij de artiesteningang.</dd></div><div class="reveal border-r border-b border-line p-6 sm:p-8"><dt class="font-mono text-xs tracking-[.25em] uppercase text-blood">Timing</dt><dd class="mt-3 text-ash leading-relaxed">Stagetimes worden uiterlijk 7 dagen vooraf bevestigd. De artiest respecteert de afgesproken set-duur.</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- Voorwaarden -->
+  <section id="voorwaarden" class="py-16 md:py-24 border-b border-line bg-ink scroll-mt-20">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 grid lg:grid-cols-[280px_1fr] gap-10 lg:gap-16">
+      <div class="reveal lg:sticky lg:top-28 self-start">
+        <p class="font-mono text-xs tracking-[.35em] text-blood uppercase">03 / Voorwaarden</p>
+        <h2 class="mt-3 font-slab text-4xl sm:text-5xl uppercase slab-3d leading-[.95]">Algemene boekings&shy;voorwaarden</h2>
+        <p class="mt-6 font-mono text-[11px] tracking-[.2em] uppercase text-ash">Laatst bijgewerkt: september 2026</p>
+      </div>
+      <div class="reveal border-t border-line">
+        <details class="group border-b border-line" open>
+          <summary class="flex items-center gap-5 py-5 cursor-pointer list-none min-h-[64px] [&::-webkit-details-marker]:hidden">
+            <span class="font-mono text-xs text-blood w-14 shrink-0">ART. 01</span>
+            <span class="flex-1 font-slab text-lg sm:text-xl uppercase">Definities</span>
+            <span class="w-8 h-8 border border-line flex items-center justify-center shrink-0 transition-transform group-open:rotate-45" aria-hidden="true"><span class="text-lg leading-none">+</span></span>
+          </summary>
+          <div class="pb-6 pl-0 sm:pl-[76px] text-ash leading-relaxed space-y-3"><p><strong class="text-bone">RedRow</strong>: RedRow Music, het label dat de artiesten vertegenwoordigt. <strong class="text-bone">Artiest</strong>: de artiest(en) van RedRow die geboekt worden. <strong class="text-bone">Organisator</strong>: de persoon of organisatie die de boeking aanvraagt. <strong class="text-bone">Optreden</strong>: de overeengekomen show, performance of verschijning.</p></div>
+        </details>
+        <details class="group border-b border-line" >
+          <summary class="flex items-center gap-5 py-5 cursor-pointer list-none min-h-[64px] [&::-webkit-details-marker]:hidden">
+            <span class="font-mono text-xs text-blood w-14 shrink-0">ART. 02</span>
+            <span class="flex-1 font-slab text-lg sm:text-xl uppercase">Aanvraag en offerte</span>
+            <span class="w-8 h-8 border border-line flex items-center justify-center shrink-0 transition-transform group-open:rotate-45" aria-hidden="true"><span class="text-lg leading-none">+</span></span>
+          </summary>
+          <div class="pb-6 pl-0 sm:pl-[76px] text-ash leading-relaxed space-y-3"><p>Een boekingsaanvraag gebeurt via het contactformulier of per e-mail. RedRow stuurt binnen drie werkdagen een vrijblijvende offerte met gage, set-duur en voorwaarden.</p><p>Een offerte is 14 dagen geldig, tenzij anders vermeld. Beschikbaarheid van de artiest is pas gegarandeerd na ondertekening van de overeenkomst.</p></div>
+        </details>
+        <details class="group border-b border-line" >
+          <summary class="flex items-center gap-5 py-5 cursor-pointer list-none min-h-[64px] [&::-webkit-details-marker]:hidden">
+            <span class="font-mono text-xs text-blood w-14 shrink-0">ART. 03</span>
+            <span class="flex-1 font-slab text-lg sm:text-xl uppercase">Totstandkoming van de overeenkomst</span>
+            <span class="w-8 h-8 border border-line flex items-center justify-center shrink-0 transition-transform group-open:rotate-45" aria-hidden="true"><span class="text-lg leading-none">+</span></span>
+          </summary>
+          <div class="pb-6 pl-0 sm:pl-[76px] text-ash leading-relaxed space-y-3"><p>De boeking is definitief zodra de overeenkomst door beide partijen is ondertekend én het voorschot is ontvangen. Mondelinge afspraken zijn pas bindend wanneer RedRow ze schriftelijk bevestigt.</p></div>
+        </details>
+        <details class="group border-b border-line" >
+          <summary class="flex items-center gap-5 py-5 cursor-pointer list-none min-h-[64px] [&::-webkit-details-marker]:hidden">
+            <span class="font-mono text-xs text-blood w-14 shrink-0">ART. 04</span>
+            <span class="flex-1 font-slab text-lg sm:text-xl uppercase">Betaling</span>
+            <span class="w-8 h-8 border border-line flex items-center justify-center shrink-0 transition-transform group-open:rotate-45" aria-hidden="true"><span class="text-lg leading-none">+</span></span>
+          </summary>
+          <div class="pb-6 pl-0 sm:pl-[76px] text-ash leading-relaxed space-y-3"><p>Bij ondertekening is een voorschot van 50% van de gage verschuldigd, te betalen binnen 14 dagen. Het resterende bedrag wordt uiterlijk 7 dagen vóór het optreden betaald.</p><p>Reis-, verblijf- en productiekosten worden apart vermeld in de offerte. Bij laattijdige betaling mag RedRow het optreden opschorten.</p></div>
+        </details>
+        <details class="group border-b border-line" >
+          <summary class="flex items-center gap-5 py-5 cursor-pointer list-none min-h-[64px] [&::-webkit-details-marker]:hidden">
+            <span class="font-mono text-xs text-blood w-14 shrink-0">ART. 05</span>
+            <span class="flex-1 font-slab text-lg sm:text-xl uppercase">Annulering door de organisator</span>
+            <span class="w-8 h-8 border border-line flex items-center justify-center shrink-0 transition-transform group-open:rotate-45" aria-hidden="true"><span class="text-lg leading-none">+</span></span>
+          </summary>
+          <div class="pb-6 pl-0 sm:pl-[76px] text-ash leading-relaxed space-y-3"><p>Annulering gebeurt altijd schriftelijk. De volgende vergoedingen zijn dan verschuldigd:</p><ul class="space-y-2"><li class="flex gap-3"><span class="text-blood">—</span>meer dan 60 dagen vooraf: 25% van de gage</li><li class="flex gap-3"><span class="text-blood">—</span>30 tot 60 dagen vooraf: 50% van de gage</li><li class="flex gap-3"><span class="text-blood">—</span>minder dan 30 dagen vooraf: 100% van de gage</li></ul></div>
+        </details>
+        <details class="group border-b border-line" >
+          <summary class="flex items-center gap-5 py-5 cursor-pointer list-none min-h-[64px] [&::-webkit-details-marker]:hidden">
+            <span class="font-mono text-xs text-blood w-14 shrink-0">ART. 06</span>
+            <span class="flex-1 font-slab text-lg sm:text-xl uppercase">Annulering door RedRow en overmacht</span>
+            <span class="w-8 h-8 border border-line flex items-center justify-center shrink-0 transition-transform group-open:rotate-45" aria-hidden="true"><span class="text-lg leading-none">+</span></span>
+          </summary>
+          <div class="pb-6 pl-0 sm:pl-[76px] text-ash leading-relaxed space-y-3"><p>Kan de artiest door ziekte, ongeval of overmacht niet optreden, dan stelt RedRow in overleg een nieuwe datum of een vervangende artiest voor. Lukt dat niet, dan worden de reeds betaalde bedragen volledig terugbetaald. Verdere schadevergoeding is uitgesloten.</p></div>
+        </details>
+        <details class="group border-b border-line" >
+          <summary class="flex items-center gap-5 py-5 cursor-pointer list-none min-h-[64px] [&::-webkit-details-marker]:hidden">
+            <span class="font-mono text-xs text-blood w-14 shrink-0">ART. 07</span>
+            <span class="flex-1 font-slab text-lg sm:text-xl uppercase">Promotie, naam en beeld</span>
+            <span class="w-8 h-8 border border-line flex items-center justify-center shrink-0 transition-transform group-open:rotate-45" aria-hidden="true"><span class="text-lg leading-none">+</span></span>
+          </summary>
+          <div class="pb-6 pl-0 sm:pl-[76px] text-ash leading-relaxed space-y-3"><p>De organisator mag de naam, foto’s en het logo van de artiest en RedRow alleen gebruiken voor de promotie van het geboekte optreden, en alleen met door RedRow aangeleverd materiaal. Aanpassingen aan logo’s of foto’s zijn niet toegestaan.</p></div>
+        </details>
+        <details class="group border-b border-line" >
+          <summary class="flex items-center gap-5 py-5 cursor-pointer list-none min-h-[64px] [&::-webkit-details-marker]:hidden">
+            <span class="font-mono text-xs text-blood w-14 shrink-0">ART. 08</span>
+            <span class="flex-1 font-slab text-lg sm:text-xl uppercase">Opnames</span>
+            <span class="w-8 h-8 border border-line flex items-center justify-center shrink-0 transition-transform group-open:rotate-45" aria-hidden="true"><span class="text-lg leading-none">+</span></span>
+          </summary>
+          <div class="pb-6 pl-0 sm:pl-[76px] text-ash leading-relaxed space-y-3"><p>Audio- of video-opnames van het optreden voor commercieel gebruik, livestreams of uitzendingen zijn enkel toegestaan met schriftelijke toestemming van RedRow. Korte fragmenten voor sociale media door de organisator zijn toegestaan, mits de artiest en RedRow worden getagd.</p></div>
+        </details>
+        <details class="group border-b border-line" >
+          <summary class="flex items-center gap-5 py-5 cursor-pointer list-none min-h-[64px] [&::-webkit-details-marker]:hidden">
+            <span class="font-mono text-xs text-blood w-14 shrink-0">ART. 09</span>
+            <span class="flex-1 font-slab text-lg sm:text-xl uppercase">Aansprakelijkheid</span>
+            <span class="w-8 h-8 border border-line flex items-center justify-center shrink-0 transition-transform group-open:rotate-45" aria-hidden="true"><span class="text-lg leading-none">+</span></span>
+          </summary>
+          <div class="pb-6 pl-0 sm:pl-[76px] text-ash leading-relaxed space-y-3"><p>De organisator is verantwoordelijk voor de veiligheid van de locatie, het publiek en de apparatuur, en voor de nodige vergunningen. RedRow is niet aansprakelijk voor schade die ontstaat door omstandigheden op de locatie.</p></div>
+        </details>
+        <details class="group border-b border-line" >
+          <summary class="flex items-center gap-5 py-5 cursor-pointer list-none min-h-[64px] [&::-webkit-details-marker]:hidden">
+            <span class="font-mono text-xs text-blood w-14 shrink-0">ART. 10</span>
+            <span class="flex-1 font-slab text-lg sm:text-xl uppercase">Geschillen</span>
+            <span class="w-8 h-8 border border-line flex items-center justify-center shrink-0 transition-transform group-open:rotate-45" aria-hidden="true"><span class="text-lg leading-none">+</span></span>
+          </summary>
+          <div class="pb-6 pl-0 sm:pl-[76px] text-ash leading-relaxed space-y-3"><p>Partijen proberen een geschil eerst in onderling overleg op te lossen. Lukt dat niet, dan is het recht van toepassing van het land waar RedRow Music gevestigd is, en zijn de rechtbanken van die vestigingsplaats bevoegd.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Termen -->
+  <section id="termen" class="py-16 md:py-24 border-b border-line scroll-mt-20">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <p class="font-mono text-xs tracking-[.35em] text-blood uppercase reveal">04 / Termen</p>
+      <h2 class="mt-3 font-slab text-4xl sm:text-5xl uppercase slab-3d reveal">De termen van RedRow</h2>
+      <div class="mt-10 grid md:grid-cols-2 gap-4 md:gap-6">
+        <div class="reveal frame p-6 sm:p-8"><h3 class="font-slab text-2xl uppercase">Respect</h3><p class="mt-3 text-ash leading-relaxed">We werken met iedereen op basis van respect. Intimidatie, discriminatie of agressie tegenover artiest, crew of publiek tolereren we niet; RedRow mag in dat geval het optreden stopzetten, met behoud van de volledige gage.</p></div><div class="reveal frame p-6 sm:p-8"><h3 class="font-slab text-2xl uppercase">Duidelijkheid</h3><p class="mt-3 text-ash leading-relaxed">Alle afspraken staan op papier. Wat niet schriftelijk is bevestigd, is niet afgesproken.</p></div><div class="reveal frame p-6 sm:p-8"><h3 class="font-slab text-2xl uppercase">Op tijd</h3><p class="mt-3 text-ash leading-relaxed">We zijn op tijd en verwachten dat ook van de organisator: van soundcheck tot betaling.</p></div><div class="reveal frame p-6 sm:p-8"><h3 class="font-slab text-2xl uppercase">Merk</h3><p class="mt-3 text-ash leading-relaxed">RedRow en de artiesten zijn een merk. Gebruik altijd het officiële logo en beeldmateriaal, en tag @issahh_ of @c7evn_ in je promotie.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-16 md:py-24">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <a href="index.html?onderwerp=boeking#contact" class="reveal block bg-blood p-8 sm:p-12 extrude">
+        <span class="font-mono text-xs tracking-[.35em] uppercase text-bone/70">Klaar om te boeken?</span>
+        <span class="mt-4 flex items-center justify-between gap-6 font-slab text-3xl sm:text-5xl uppercase leading-tight">Stuur je aanvraag <span aria-hidden="true">→</span></span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer class="border-t border-line">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 flex flex-col md:flex-row gap-6 md:items-center justify-between">
+    <div class="flex items-center gap-3">
+      <img src="assets/logo.webp" alt="" width="1254" height="1254" loading="lazy" class="w-10 h-10 bg-black">
+      <span class="font-mono text-xs tracking-[.3em]">REDROW<span class="text-blood">/</span>MUSIC</span>
+    </div>
+    <div class="flex gap-6 font-mono text-xs tracking-[.2em] uppercase text-ash">
+      <a href="#" class="hover:text-bone py-2">Instagram</a><a href="#" class="hover:text-bone py-2">YouTube</a><a href="#" class="hover:text-bone py-2">Spotify</a>
+    </div>
+    <p class="font-mono text-[11px] tracking-[.2em] text-ash/70">© <span id="year"></span> REDROW MUSIC</p>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const $ = (s, c = document) => c.querySelector(s);
+  const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(pointer: fine)').matches;
+
+  // ---------- Header on scroll ----------
+  const burger = $('#burger'), menu = $('#mobileMenu');
+  const header = $('[data-header]');
+  const onScroll = () => {
+    const s = scrollY > 20;
+    const open = menu.classList.contains('open');
+    header.classList.toggle('bg-black', !s || open);
+    header.classList.toggle('scrolled', s && !open);
+  };
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  // ---------- Mobile menu ----------
+  const setMenu = open => {
+    burger.classList.toggle('open', open); menu.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open); menu.setAttribute('aria-hidden', !open);
+    document.body.style.overflow = open ? 'hidden' : '';
+    onScroll();
+  };
+  burger.addEventListener('click', () => setMenu(!menu.classList.contains('open')));
+  $$('.mnav').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  addEventListener('keydown', e => e.key === 'Escape' && setMenu(false));
+  matchMedia('(min-width: 768px)').addEventListener('change', e => e.matches && setMenu(false));
+
+  // ---------- 3D tilt (pointer devices only) ----------
+  if (fine && !reduce) {
+    $$('[data-tilt-stage]').forEach(stage => {
+      const el = $('[data-tilt]', stage), max = +el.dataset.tiltMax || 8;
+      stage.addEventListener('pointermove', e => {
+        const r = stage.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+        el.style.transform = `rotateY(${x * max * 2}deg) rotateX(${-y * max * 2}deg)`;
+      });
+      stage.addEventListener('pointerleave', () => el.style.transform = '');
+    });
+  }
+
+  // ---------- Reveal on scroll ----------
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 });
+  $$('.reveal').forEach(el => io.observe(el));
+
+  $('#year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
