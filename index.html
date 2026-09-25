@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RedRow Music</title>
+<meta name="description" content="RedRow Music — onafhankelijk artiestenlabel. The sound of RedRow.">
+<meta name="theme-color" content="#0A0A0A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      borderRadius: { none: '0', DEFAULT: '0' },
+      extend: {
+        colors: { ink: '#0A0A0A', coal: '#121212', line: '#262626', blood: '#A31D1D', oxblood: '#8B0000', bone: '#F3F3F3', ash: '#999999' },
+        fontFamily: { slab: ['"Alfa Slab One"', 'serif'], mono: ['"IBM Plex Mono"', 'monospace'], sans: ['"IBM Plex Sans"', 'sans-serif'] }
+      }
+    }
+  }
+</script>
+<style>
+  *, *::before, *::after { border-radius: 0 !important; }
+  html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+  body {
+    background-color: #0A0A0A;
+    background-image:
+      radial-gradient(ellipse 70% 55% at 50% 0%, rgba(163,29,29,.22) 0%, rgba(40,20,20,.35) 35%, rgba(10,10,10,0) 70%),
+      radial-gradient(ellipse 40% 30% at 50% 12%, rgba(243,243,243,.06), transparent 70%);
+    background-repeat: no-repeat;
+  }
+  /* film grain */
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 60; opacity: .07;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Hard extruded 3D shadow — the core depth language of the site */
+  .extrude { box-shadow: 1px 1px 0 #5a0f0f, 2px 2px 0 #5a0f0f, 3px 3px 0 #5a0f0f, 4px 4px 0 #5a0f0f, 5px 5px 0 #5a0f0f, 6px 6px 0 #5a0f0f; transition: transform .15s ease, box-shadow .15s ease; }
+  .extrude:hover { transform: translate(-2px,-2px); box-shadow: 1px 1px 0 #5a0f0f, 2px 2px 0 #5a0f0f, 3px 3px 0 #5a0f0f, 4px 4px 0 #5a0f0f, 5px 5px 0 #5a0f0f, 6px 6px 0 #5a0f0f, 7px 7px 0 #5a0f0f, 8px 8px 0 #5a0f0f; }
+  .extrude:active { transform: translate(5px,5px); box-shadow: 1px 1px 0 #5a0f0f; }
+  .extrude-ghost { box-shadow: 1px 1px 0 #333, 2px 2px 0 #333, 3px 3px 0 #333, 4px 4px 0 #333, 5px 5px 0 #333, 6px 6px 0 #333; transition: transform .15s ease, box-shadow .15s ease; }
+  .extrude-ghost:hover { transform: translate(-2px,-2px); box-shadow: 1px 1px 0 #A31D1D, 2px 2px 0 #A31D1D, 3px 3px 0 #A31D1D, 4px 4px 0 #A31D1D, 5px 5px 0 #A31D1D, 6px 6px 0 #A31D1D, 7px 7px 0 #A31D1D, 8px 8px 0 #A31D1D; }
+  .extrude-ghost:active { transform: translate(5px,5px); box-shadow: 1px 1px 0 #333; }
+
+  .slab-3d { text-shadow: 1px 1px 0 #6d1414, 2px 2px 0 #6d1414, 3px 3px 0 #5a0f0f, 4px 4px 0 #4a0c0c, 5px 5px 0 #3a0909, 6px 6px 14px rgba(0,0,0,.8); }
+
+  /* 3D tilt surfaces */
+  .tilt-stage { perspective: 1100px; }
+  .tilt { transform-style: preserve-3d; transition: transform .25s ease-out; will-change: transform; }
+  .tilt .pop { transform: translateZ(40px); }
+
+  .hero-pendant { -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%); mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%); filter: drop-shadow(0 40px 60px rgba(0,0,0,.9)) drop-shadow(0 0 80px rgba(163,29,29,.25)); animation: sway 7s ease-in-out infinite; transform-origin: 50% 0; }
+  @keyframes sway { 0%,100% { transform: rotateZ(-1.2deg) rotateY(-6deg); } 50% { transform: rotateZ(1.2deg) rotateY(6deg); } }
+
+  /* frame with red corner ticks */
+  .frame { position: relative; border: 1px solid #262626; background: #0d0d0d; }
+  .frame::before, .frame::after { content: ""; position: absolute; width: 14px; height: 14px; border-color: #A31D1D; border-style: solid; z-index: 3; pointer-events: none; }
+  .frame::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+  .frame::after { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+  .duo img { filter: grayscale(1) contrast(1.15) brightness(.85); transition: filter .4s ease, transform .6s ease; }
+  .duo::after { content: ""; position: absolute; inset: 0; background: #8B0000; mix-blend-mode: multiply; opacity: .35; transition: opacity .4s ease; pointer-events: none; }
+  .duo:hover img { filter: grayscale(.2) contrast(1.1) brightness(.95); transform: scale(1.04); }
+  .duo:hover::after { opacity: .1; }
+
+  .scanlines::before { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(0,0,0,.25) 0 1px, transparent 1px 3px); }
+
+  /* marquee: right → left */
+  .marquee { mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+  .marquee-track { display: flex; width: max-content; animation: marquee 48s linear infinite; }
+  .marquee:hover .marquee-track, .marquee:focus-within .marquee-track { animation-play-state: paused; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  .field { background: #0d0d0d; border: 1px solid #2e2e2e; color: #F3F3F3; transition: border-color .15s, box-shadow .15s; }
+  .field:focus { outline: none; border-color: #A31D1D; box-shadow: 4px 4px 0 #5a0f0f; }
+  .field::placeholder { color: #555; }
+  select.field { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 0h12L6 8z' fill='%23A31D1D'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; }
+
+  #mobileMenu { transform: translateX(100%); transition: transform .35s cubic-bezier(.7,0,.2,1); }
+  #mobileMenu.open { transform: translateX(0); }
+  .burger span { display: block; height: 2px; width: 22px; background: #F3F3F3; transition: transform .25s, opacity .25s; }
+  .burger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .burger.open span:nth-child(2) { opacity: 0; }
+  .burger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-pendant, .marquee-track { animation: none; }
+    .reveal { opacity: 1; transform: none; }
+    .tilt { transition: none; }
+  }
+</style>
+</head>
+<body class="font-sans text-bone antialiased min-h-screen overflow-x-hidden">
+
+<!-- ============ HEADER ============ -->
+<header id="top" class="fixed top-0 inset-x-0 z-50 border-b border-line/0 transition-colors duration-300" data-header>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 md:h-20 flex items-center justify-between">
+    <a href="#top" class="flex items-center gap-3 group" aria-label="RedRow Music home">
+      <span class="w-10 h-10 bg-blood flex items-center justify-center font-slab text-2xl text-bone extrude leading-none pb-0.5">R</span>
+      <span class="font-mono text-sm tracking-[.3em] font-semibold">REDROW<span class="text-blood">/</span>MUSIC</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-8 font-mono text-xs tracking-[.25em] uppercase">
+      <a href="#studio" class="text-ash hover:text-bone transition-colors">Studio</a>
+      <a href="#artists" class="text-ash hover:text-bone transition-colors">Artiesten</a>
+      <a href="#clips" class="text-ash hover:text-bone transition-colors">Clips</a>
+      <a href="#contact" class="bg-blood text-bone px-5 py-3 extrude">Contact</a>
+    </nav>
+    <button id="burger" class="burger md:hidden w-12 h-12 -mr-2 flex flex-col items-center justify-center gap-1" aria-label="Menu openen" aria-expanded="false" aria-controls="mobileMenu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile menu -->
+<div id="mobileMenu" class="md:hidden fixed inset-0 top-16 z-40 bg-ink border-t border-line flex flex-col" aria-hidden="true">
+  <nav class="flex-1 flex flex-col px-4 pt-6">
+    <a href="#studio" class="mnav flex items-baseline justify-between py-5 border-b border-line"><span class="font-slab text-4xl">Studio</span><span class="font-mono text-xs text-blood">01</span></a>
+    <a href="#artists" class="mnav flex items-baseline justify-between py-5 border-b border-line"><span class="font-slab text-4xl">Artiesten</span><span class="font-mono text-xs text-blood">02</span></a>
+    <a href="#clips" class="mnav flex items-baseline justify-between py-5 border-b border-line"><span class="font-slab text-4xl">Clips</span><span class="font-mono text-xs text-blood">03</span></a>
+    <a href="#contact" class="mnav flex items-baseline justify-between py-5 border-b border-line"><span class="font-slab text-4xl">Contact</span><span class="font-mono text-xs text-blood">04</span></a>
+  </nav>
+  <p class="px-4 pb-8 font-mono text-[11px] tracking-[.25em] text-ash uppercase">Est. Amsterdam — Rec / Mix / Release</p>
+</div>
+
+<main>
+<!-- ============ HERO ============ -->
+<section class="relative pt-24 md:pt-28 pb-16 md:pb-24 overflow-hidden">
+  <!-- side rails -->
+  <div class="hidden lg:flex absolute left-6 top-40 bottom-24 flex-col justify-between font-mono text-[10px] tracking-[.3em] text-ash/70 [writing-mode:vertical-rl] rotate-180">
+    <span>REC ● 00:00:00:00</span><span>SIDE A</span>
+  </div>
+  <div class="hidden lg:flex absolute right-6 top-40 bottom-24 flex-col justify-between font-mono text-[10px] tracking-[.3em] text-ash/70 [writing-mode:vertical-rl]">
+    <span>52.3676° N / 4.9041° E</span><span>33⅓ RPM</span>
+  </div>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center">
+    <div class="tilt-stage mx-auto w-full max-w-[520px]" data-tilt-stage>
+      <div class="tilt" data-tilt data-tilt-max="10">
+        <img src="assets/redrow-hero.webp" alt="RedRow Music — iced-out R hanger met RED ROW belettering" class="hero-pendant w-full h-auto select-none" draggable="false" width="1312" height="1195" fetchpriority="high">
+      </div>
+    </div>
+
+    <p class="mt-4 font-mono text-[11px] sm:text-xs tracking-[.4em] text-blood uppercase">— Onafhankelijk label · Sinds 2019 —</p>
+    <h1 class="mt-5 font-slab uppercase leading-[.9] tracking-tight text-[clamp(2.6rem,10vw,7.5rem)] slab-3d">
+      The Sound<br>of <span class="text-blood">RedRow</span>
+    </h1>
+    <p class="mt-6 max-w-xl mx-auto text-ash text-base sm:text-lg leading-relaxed">
+      Rauwe sessies, analoge warmte en artiesten die hun eigen regels schrijven. Opgenomen na middernacht, uitgebracht zonder compromis.
+    </p>
+    <div class="mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 sm:gap-6 max-w-sm sm:max-w-none mx-auto">
+      <a href="#artists" class="bg-blood text-bone font-mono text-sm tracking-[.2em] uppercase px-8 py-4 min-h-[52px] flex items-center justify-center gap-3 extrude">
+        Ontdek Artiesten <span aria-hidden="true">→</span>
+      </a>
+      <a href="#clips" class="bg-ink border border-bone/80 text-bone font-mono text-sm tracking-[.2em] uppercase px-8 py-4 min-h-[52px] flex items-center justify-center gap-3 extrude-ghost">
+        <span class="w-0 h-0 border-y-[6px] border-y-transparent border-l-[10px] border-l-blood" aria-hidden="true"></span> Bekijk Clips
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ticker strip -->
+<div class="border-y border-line bg-coal/80 overflow-hidden" aria-hidden="true">
+  <div class="marquee-track py-3 font-mono text-xs tracking-[.35em] uppercase text-ash whitespace-nowrap" style="animation-duration:36s">
+    <span class="px-6">Now Recording <span class="text-blood">■</span> Studio B</span><span class="px-6">Indie Rock <span class="text-blood">■</span> Electronic <span class="text-blood">■</span> Neo-Soul</span><span class="px-6">Tape Machine Online <span class="text-blood">■</span> 1/2"</span><span class="px-6">New Release — Friday 00:00</span>
+    <span class="px-6">Now Recording <span class="text-blood">■</span> Studio B</span><span class="px-6">Indie Rock <span class="text-blood">■</span> Electronic <span class="text-blood">■</span> Neo-Soul</span><span class="px-6">Tape Machine Online <span class="text-blood">■</span> 1/2"</span><span class="px-6">New Release — Friday 00:00</span>
+  </div>
+</div>
+
+<!-- ============ STUDIO / GALLERY ============ -->
+<section id="studio" class="py-20 md:py-28 scroll-mt-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="flex items-end justify-between gap-6 mb-10 md:mb-14 reveal">
+      <div>
+        <p class="font-mono text-xs tracking-[.35em] text-blood uppercase">01 / Sfeer</p>
+        <h2 class="mt-3 font-slab text-4xl sm:text-5xl md:text-6xl uppercase slab-3d">De Studio</h2>
+      </div>
+      <p class="hidden md:block max-w-xs text-ash text-sm leading-relaxed">Rode lampen, warme buizen, lange nachten. Waar elke plaat van RedRow begint.</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+      <figure class="tilt-stage reveal" data-tilt-stage>
+        <div class="tilt frame p-2 sm:p-3" data-tilt>
+          <div class="duo scanlines relative aspect-[4/5] overflow-hidden">
+            <img src="https://picsum.photos/seed/redrow-console/800/1000" alt="Mengtafel in de studio" loading="lazy" class="w-full h-full object-cover">
+          </div>
+          <figcaption class="pop flex justify-between items-center pt-3 font-mono text-[11px] tracking-[.25em] uppercase"><span>Control Room</span><span class="text-blood">A-01</span></figcaption>
+        </div>
+      </figure>
+      <figure class="tilt-stage reveal lg:mt-10" data-tilt-stage>
+        <div class="tilt frame p-2 sm:p-3" data-tilt>
+          <div class="duo scanlines relative aspect-[4/5] overflow-hidden">
+            <img src="https://picsum.photos/seed/redrow-live/800/1000" alt="Opnamesessie in de live room" loading="lazy" class="w-full h-full object-cover">
+          </div>
+          <figcaption class="pop flex justify-between items-center pt-3 font-mono text-[11px] tracking-[.25em] uppercase"><span>Live Room</span><span class="text-blood">A-02</span></figcaption>
+        </div>
+      </figure>
+      <figure class="tilt-stage reveal sm:col-span-2 lg:col-span-1" data-tilt-stage>
+        <div class="tilt frame p-2 sm:p-3" data-tilt>
+          <div class="duo scanlines relative aspect-[4/5] sm:aspect-[16/9] lg:aspect-[4/5] overflow-hidden">
+            <img src="https://picsum.photos/seed/redrow-vinyl/1200/1000" alt="Vinyl en tape archief" loading="lazy" class="w-full h-full object-cover">
+          </div>
+          <figcaption class="pop flex justify-between items-center pt-3 font-mono text-[11px] tracking-[.25em] uppercase"><span>Tape Vault</span><span class="text-blood">A-03</span></figcaption>
+        </div>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ARTISTS ============ -->
+<section id="artists" class="py-20 md:py-28 border-t border-line scroll-mt-16">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="mb-10 md:mb-14 reveal">
+      <p class="font-mono text-xs tracking-[.35em] text-blood uppercase">02 / Roster</p>
+      <h2 class="mt-3 font-slab text-4xl sm:text-5xl md:text-6xl uppercase slab-3d">Artiesten</h2>
+    </div>
+    <div id="artistGrid" class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10"></div>
+  </div>
+</section>
+
+<!-- ============ CLIPS ============ -->
+<section id="clips" class="py-20 md:py-28 border-t border-line scroll-mt-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 mb-10 md:mb-14 flex items-end justify-between gap-6 reveal">
+    <div>
+      <p class="font-mono text-xs tracking-[.35em] text-blood uppercase">03 / Beeld</p>
+      <h2 class="mt-3 font-slab text-4xl sm:text-5xl md:text-6xl uppercase slab-3d">Artist Clips</h2>
+    </div>
+    <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="hidden sm:flex font-mono text-xs tracking-[.25em] uppercase text-ash hover:text-bone border-b border-blood pb-1">YouTube Kanaal →</a>
+  </div>
+  <div class="marquee overflow-hidden py-4">
+    <div id="clipTrack" class="marquee-track gap-5 md:gap-7 pr-5 md:pr-7"></div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact" class="py-20 md:py-28 border-t border-line scroll-mt-16">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 grid lg:grid-cols-[1fr_1.3fr] gap-12 lg:gap-16">
+    <div class="reveal">
+      <p class="font-mono text-xs tracking-[.35em] text-blood uppercase">04 / Contact</p>
+      <h2 class="mt-3 font-slab text-4xl sm:text-5xl md:text-6xl uppercase slab-3d leading-[.95]">Stuur ons<br>een bericht</h2>
+      <p class="mt-6 text-ash leading-relaxed max-w-md">Demo's, samenwerkingen, pers of boekingen. We lezen alles — en reageren binnen drie werkdagen.</p>
+      <dl class="mt-10 font-mono text-sm divide-y divide-line border-y border-line">
+        <div class="flex justify-between py-4"><dt class="text-ash tracking-[.2em] uppercase text-xs">E-mail</dt><dd><a href="mailto:info@redrowmusic.nl" class="hover:text-blood">info@redrowmusic.nl</a></dd></div>
+        <div class="flex justify-between py-4"><dt class="text-ash tracking-[.2em] uppercase text-xs">Boekingen</dt><dd><a href="mailto:booking@redrowmusic.nl" class="hover:text-blood">booking@redrowmusic.nl</a></dd></div>
+        <div class="flex justify-between py-4"><dt class="text-ash tracking-[.2em] uppercase text-xs">Studio</dt><dd>Amsterdam, NL</dd></div>
+      </dl>
+    </div>
+
+    <div class="frame p-5 sm:p-8 md:p-10 reveal" style="box-shadow: 10px 10px 0 #140606, 10px 10px 0 1px #262626;">
+      <form id="contactForm" novalidate class="space-y-6">
+        <div class="grid sm:grid-cols-2 gap-6">
+          <label class="block">
+            <span class="font-mono text-[11px] tracking-[.25em] uppercase text-ash">Naam *</span>
+            <input name="name" type="text" autocomplete="name" required class="field mt-2 w-full h-14 px-4 text-base" placeholder="Je naam">
+            <span class="err hidden mt-2 font-mono text-[11px] text-blood">Vul je naam in.</span>
+          </label>
+          <label class="block">
+            <span class="font-mono text-[11px] tracking-[.25em] uppercase text-ash">E-mail *</span>
+            <input name="email" type="email" autocomplete="email" inputmode="email" required class="field mt-2 w-full h-14 px-4 text-base" placeholder="naam@domein.nl">
+            <span class="err hidden mt-2 font-mono text-[11px] text-blood">Vul een geldig e-mailadres in.</span>
+          </label>
+        </div>
+        <label class="block">
+          <span class="font-mono text-[11px] tracking-[.25em] uppercase text-ash">Waarom neem je contact op? *</span>
+          <select name="reason" required class="field mt-2 w-full h-14 px-4 pr-12 text-base">
+            <option value="" disabled selected>Maak een keuze</option>
+            <option value="artist">Ben je artiest?</option>
+            <option value="company">Ben je een ander bedrijf?</option>
+            <option value="press">Pers &amp; Boekingen</option>
+            <option value="other">Anders</option>
+          </select>
+          <span class="err hidden mt-2 font-mono text-[11px] text-blood">Kies een onderwerp.</span>
+        </label>
+        <label class="block">
+          <span class="font-mono text-[11px] tracking-[.25em] uppercase text-ash">Bericht *</span>
+          <textarea name="message" rows="6" required class="field mt-2 w-full px-4 py-4 text-base resize-y min-h-[140px]" placeholder="Vertel ons meer…"></textarea>
+          <span class="err hidden mt-2 font-mono text-[11px] text-blood">Schrijf een bericht.</span>
+        </label>
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-5 pt-2">
+          <p class="font-mono text-[11px] text-ash tracking-wider">* Verplichte velden</p>
+          <button type="submit" class="bg-blood text-bone font-mono text-sm tracking-[.2em] uppercase px-10 min-h-[56px] extrude flex items-center justify-center gap-3">
+            <span data-label>Verzenden</span> <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      </form>
+
+      <div id="formSuccess" class="hidden text-center py-10" role="status" aria-live="polite">
+        <div class="mx-auto w-20 h-20 bg-blood flex items-center justify-center extrude">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#F3F3F3" stroke-width="3" stroke-linecap="square"><path d="M4 12.5l5 5L20 6.5"/></svg>
+        </div>
+        <h3 class="mt-8 font-slab text-3xl uppercase">Ontvangen</h3>
+        <p class="mt-3 text-ash max-w-sm mx-auto">Bedankt, <span id="successName"></span>. Je bericht ligt op de mengtafel — we nemen snel contact op.</p>
+        <button id="resetForm" class="mt-8 font-mono text-xs tracking-[.25em] uppercase text-ash hover:text-bone border-b border-blood pb-1 min-h-[44px]">Nieuw bericht</button>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="border-t border-line">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 flex flex-col md:flex-row gap-6 md:items-center justify-between">
+    <div class="flex items-center gap-3">
+      <span class="w-8 h-8 bg-blood flex items-center justify-center font-slab text-lg leading-none">R</span>
+      <span class="font-mono text-xs tracking-[.3em]">REDROW<span class="text-blood">/</span>MUSIC</span>
+    </div>
+    <div class="flex gap-6 font-mono text-xs tracking-[.2em] uppercase text-ash">
+      <a href="#" class="hover:text-bone py-2">Instagram</a><a href="#" class="hover:text-bone py-2">YouTube</a><a href="#" class="hover:text-bone py-2">Spotify</a>
+    </div>
+    <p class="font-mono text-[11px] tracking-[.2em] text-ash/70">© <span id="year"></span> REDROW MUSIC</p>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const $ = (s, c = document) => c.querySelector(s);
+  const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(pointer: fine)').matches;
+
+  // ---------- Data ----------
+  const artists = [
+    { name: 'Issahh', handle: '@issahh_', genre: 'RedRow Artist', city: 'NL', img: 'redrow-issahh', bio: 'Artiest van het eerste uur bij RedRow. Volg zijn nieuwste releases, clips en sessies via Instagram.', links: { Instagram: 'https://www.instagram.com/issahh_/' } },
+    { name: 'C7evn', handle: '@c7evn_', genre: 'RedRow Artist', city: 'NL', img: 'redrow-c7evn', bio: 'Eigen sound, eigen regels. Volg zijn nieuwste releases, clips en sessies via Instagram.', links: { Instagram: 'https://www.instagram.com/c7evn_/' } }
+  ];
+
+  const clips = [
+    { title: 'RedRow — Clip 01', id: 'PmBMVUdfvO0' },
+    { title: 'RedRow — Clip 02', id: 'jD31SZTCc1E' },
+    { title: 'RedRow — Clip 03', id: 'bJZMV-J2zKE' }
+  ];
+
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  // ---------- Artists ----------
+  $('#artistGrid').innerHTML = artists.map((a, i) => `
+    <article class="tilt-stage reveal" data-tilt-stage>
+      <div class="tilt frame h-full flex flex-col" data-tilt data-tilt-max="6">
+        <div class="duo scanlines relative aspect-[4/3] overflow-hidden border-b border-line">
+          <img src="https://picsum.photos/seed/${a.img}/900/675" alt="Portret van ${esc(a.name)}" loading="lazy" class="w-full h-full object-cover">
+          <span class="absolute top-0 left-0 z-10 bg-blood font-mono text-[11px] tracking-[.25em] uppercase px-3 py-2">${esc(a.genre)}</span>
+          <span class="absolute bottom-3 right-4 z-10 font-slab text-6xl text-bone/15 leading-none">${String(i + 1).padStart(2, '0')}</span>
+        </div>
+        <div class="pop p-5 sm:p-7 flex-1 flex flex-col">
+          <div class="flex items-baseline justify-between gap-4">
+            <h3 class="font-slab text-2xl sm:text-3xl uppercase">${esc(a.name)}</h3>
+            <span class="font-mono text-[11px] tracking-[.2em] text-ash shrink-0">${esc(a.handle)}</span>
+          </div>
+          <p class="mt-3 text-ash leading-relaxed text-[15px] flex-1">${esc(a.bio)}</p>
+          <div class="mt-6 pt-5 border-t border-line flex flex-wrap gap-2">
+            ${Object.entries(a.links).map(([k, v]) => `<a href="${esc(v)}" target="_blank" rel="noopener" class="font-mono text-[11px] tracking-[.2em] uppercase border border-line px-3 min-h-[40px] flex items-center hover:border-blood hover:bg-blood transition-colors">${esc(k)}</a>`).join('')}
+          </div>
+        </div>
+      </div>
+    </article>`).join('');
+
+  // ---------- Clips (duplicated for seamless loop) ----------
+  const clipCard = c => `
+    <a href="https://youtu.be/${c.id}" target="_blank" rel="noopener" class="group shrink-0 w-[260px] sm:w-[320px] md:w-[380px] frame p-2 block">
+      <div class="relative aspect-video overflow-hidden duo scanlines">
+        <img src="https://i.ytimg.com/vi/${c.id}/hqdefault.jpg" alt="" loading="lazy" class="w-full h-full object-cover">
+        <span class="absolute inset-0 z-10 flex items-center justify-center">
+          <span class="w-14 h-14 bg-blood flex items-center justify-center extrude group-hover:scale-110 transition-transform">
+            <span class="w-0 h-0 border-y-[9px] border-y-transparent border-l-[14px] border-l-bone ml-1"></span>
+          </span>
+        </span>
+        <span class="absolute bottom-2 right-2 z-10 bg-ink/90 font-mono text-[11px] px-2 py-1 tracking-wider">YOUTUBE</span>
+      </div>
+      <div class="px-1 pt-3 pb-1 flex items-start justify-between gap-3">
+        <h3 class="text-sm sm:text-[15px] font-medium leading-snug group-hover:text-blood transition-colors">${esc(c.title)}</h3>
+        <span class="font-mono text-[10px] tracking-[.2em] text-ash pt-0.5 shrink-0">YT</span>
+      </div>
+    </a>`;
+  const clipHTML = [...clips, ...clips].map(clipCard).join('');
+  $('#clipTrack').innerHTML = clipHTML + clipHTML.replaceAll('<a href', '<a aria-hidden="true" tabindex="-1" href');
+
+  // ---------- Header on scroll ----------
+  const header = $('[data-header]');
+  const onScroll = () => {
+    const s = scrollY > 20;
+    header.classList.toggle('bg-ink/90', s);
+    header.classList.toggle('backdrop-blur', s);
+    header.classList.toggle('border-line', s);
+    header.classList.toggle('border-line/0', !s);
+  };
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  // ---------- Mobile menu ----------
+  const burger = $('#burger'), menu = $('#mobileMenu');
+  const setMenu = open => {
+    burger.classList.toggle('open', open); menu.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open); menu.setAttribute('aria-hidden', !open);
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (open) header.classList.add('bg-ink'); else header.classList.remove('bg-ink');
+  };
+  burger.addEventListener('click', () => setMenu(!menu.classList.contains('open')));
+  $$('.mnav').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  addEventListener('keydown', e => e.key === 'Escape' && setMenu(false));
+  matchMedia('(min-width: 768px)').addEventListener('change', e => e.matches && setMenu(false));
+
+  // ---------- 3D tilt (pointer devices only) ----------
+  if (fine && !reduce) {
+    $$('[data-tilt-stage]').forEach(stage => {
+      const el = $('[data-tilt]', stage), max = +el.dataset.tiltMax || 8;
+      stage.addEventListener('pointermove', e => {
+        const r = stage.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+        el.style.transform = `rotateY(${x * max * 2}deg) rotateX(${-y * max * 2}deg)`;
+      });
+      stage.addEventListener('pointerleave', () => el.style.transform = '');
+    });
+  }
+
+  // ---------- Reveal on scroll ----------
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 });
+  $$('.reveal').forEach(el => io.observe(el));
+
+  // ---------- Contact form ----------
+  const form = $('#contactForm'), success = $('#formSuccess');
+  const validators = {
+    name: v => v.trim().length > 1,
+    email: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()),
+    reason: v => !!v,
+    message: v => v.trim().length > 4
+  };
+  const check = f => {
+    const ok = validators[f.name](f.value);
+    f.style.borderColor = ok ? '' : '#A31D1D';
+    f.closest('label').querySelector('.err').classList.toggle('hidden', ok);
+    return ok;
+  };
+  $$('input, select, textarea', form).forEach(f => f.addEventListener(f.tagName === 'SELECT' ? 'change' : 'blur', () => check(f)));
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const fields = $$('input, select, textarea', form);
+    const results = fields.map(check);
+    if (results.includes(false)) { fields[results.indexOf(false)].focus(); return; }
+    const btn = $('button[type=submit]', form), label = $('[data-label]', btn);
+    btn.disabled = true; label.textContent = 'Bezig…';
+    // Koppel hier je backend / formulierdienst (bijv. Formspree) via fetch().
+    setTimeout(() => {
+      $('#successName').textContent = form.name.value.trim().split(' ')[0];
+      form.classList.add('hidden'); success.classList.remove('hidden');
+      btn.disabled = false; label.textContent = 'Verzenden';
+      form.reset();
+    }, 700);
+  });
+  $('#resetForm').addEventListener('click', () => { success.classList.add('hidden'); form.classList.remove('hidden'); });
+
+  $('#year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
