@@ -344,7 +344,7 @@
     <article class="tilt-stage reveal" data-tilt-stage>
       <div class="tilt frame h-full flex flex-col" data-tilt data-tilt-max="6">
         <div class="group relative aspect-[4/3] overflow-hidden border-b border-line bg-coal">
-          <img src="${a.img}" alt="Portret van ${esc(a.name)}" loading="lazy" class="w-full h-full object-cover object-[center_15%] transition-transform duration-700 group-hover:scale-[1.04]">
+          <img src="${a.img}" alt="Portret van ${esc(a.name)}" decoding="async" class="w-full h-full object-cover object-[center_15%] transition-transform duration-700 group-hover:scale-[1.04]">
           <span class="absolute top-0 left-0 z-10 bg-blood font-mono text-[11px] tracking-[.25em] uppercase px-3 py-2">${esc(a.genre)}</span>
         </div>
         <div class="pop p-5 sm:p-7 flex-1 flex flex-col">
@@ -370,8 +370,8 @@
   // ---------- Clips (duplicated for seamless loop) ----------
   const clipCard = c => `
     <a href="https://youtu.be/${c.id}" target="_blank" rel="noopener" class="group shrink-0 w-[260px] sm:w-[320px] md:w-[380px] frame p-2 block">
-      <div class="relative aspect-video overflow-hidden duo scanlines">
-        <img src="https://i.ytimg.com/vi/${c.id}/hqdefault.jpg" alt="" loading="lazy" class="w-full h-full object-cover">
+      <div class="relative aspect-video overflow-hidden bg-coal">
+        <img src="https://i.ytimg.com/vi/${c.id}/hqdefault.jpg" alt="" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]">
         <span class="absolute inset-0 z-10 flex items-center justify-center">
           <span class="w-14 h-14 bg-blood flex items-center justify-center extrude group-hover:scale-110 transition-transform">
             <span class="w-0 h-0 border-y-[9px] border-y-transparent border-l-[14px] border-l-bone ml-1"></span>
