@@ -299,8 +299,8 @@
 
   // ---------- Data ----------
   const artists = [
-    { name: 'Issahh', handle: '@issahh_', genre: 'RedRow Artist', city: 'NL', img: 'assets/issahh.webp', bio: 'Artiest van het eerste uur bij RedRow. Volg zijn nieuwste releases, clips en sessies via Instagram.', links: { Instagram: 'https://www.instagram.com/issahh_/' } },
-    { name: 'C7evn', handle: '@c7evn_', genre: 'RedRow Artist', city: 'NL', img: 'assets/c7evn.webp', bio: 'Eigen sound, eigen regels. Volg zijn nieuwste releases, clips en sessies via Instagram.', links: { Instagram: 'https://www.instagram.com/c7evn_/' } }
+    { name: 'Issahh', handle: '@issahh_', genre: 'RedRow Artist', city: 'NL', img: 'assets/issahh.webp', release: { title: 'Baddies in Belgica', url: 'https://issah.lnk.to/BADDIESINBELGICA' }, bio: 'Artiest van het eerste uur bij RedRow. Volg zijn nieuwste releases, clips en sessies via Instagram.', links: { Instagram: 'https://www.instagram.com/issahh_/' } },
+    { name: 'C7evn', handle: '@c7evn_', genre: 'RedRow Artist', city: 'NL', img: 'assets/c7evn.webp', release: { title: 'Topfit', url: 'https://adabx.lnk.to/TOPFIT' }, bio: 'Eigen sound, eigen regels. Volg zijn nieuwste releases, clips en sessies via Instagram.', links: { Instagram: 'https://www.instagram.com/c7evn_/' } }
   ];
 
   const clips = [
@@ -355,6 +355,13 @@
             <span class="font-mono text-[11px] tracking-[.2em] text-ash shrink-0">${esc(a.handle)}</span>
           </div>
           <p class="mt-3 text-ash leading-relaxed text-[15px] flex-1">${esc(a.bio)}</p>
+          ${a.release ? `<a href="${esc(a.release.url)}" target="_blank" rel="noopener" class="mt-6 bg-blood text-bone px-5 min-h-[56px] flex items-center justify-between gap-4 extrude">
+            <span class="flex items-center gap-4 min-w-0">
+              <span class="w-0 h-0 shrink-0 border-y-[7px] border-y-transparent border-l-[11px] border-l-bone" aria-hidden="true"></span>
+              <span class="min-w-0"><span class="block font-mono text-[10px] tracking-[.25em] uppercase text-bone/70">Nu te beluisteren</span><span class="block font-slab text-base sm:text-lg uppercase truncate">${esc(a.release.title)}</span></span>
+            </span>
+            <span class="font-mono text-xs tracking-[.2em] uppercase shrink-0"><span class="hidden sm:inline">Luister </span>→</span>
+          </a>` : ''}
           <div class="mt-6 pt-5 border-t border-line flex flex-wrap gap-2">
             ${Object.entries(a.links).map(([k, v]) => `<a href="${esc(v)}" target="_blank" rel="noopener" class="font-mono text-[11px] tracking-[.2em] uppercase border border-line px-3 min-h-[40px] flex items-center hover:border-blood hover:bg-blood transition-colors">${esc(k)}</a>`).join('')}
           </div>
