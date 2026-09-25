@@ -163,6 +163,7 @@
   const artists = {
     Issahh: {
       name: 'Issahh', handle: '@issahh_', img: 'assets/issahh.webp',
+      feature: { img: 'assets/issahh-baddies.webp', caption: 'Baddies in Belgica' },
       tagline: 'Zachte stem, harde lines. Issahh maakt muziek voor de late uurtjes.',
       instagram: 'https://www.instagram.com/issahh_/',
       release: { title: 'Baddies in Belgica', url: 'https://issah.lnk.to/BADDIESINBELGICA' },
@@ -249,6 +250,19 @@
       </div>
     </div>
   </section>
+
+  ${a.feature ? `
+  <!-- Feature photo -->
+  <section class="bg-black border-t border-line py-16 md:py-24">
+    <figure class="reveal max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="frame p-2 sm:p-3">
+        <img src="${a.feature.img}" alt="${esc(a.name)} — ${esc(a.feature.caption)}" loading="lazy" width="1254" height="1254" class="block w-full h-auto">
+      </div>
+      <figcaption class="mt-4 flex justify-between items-center font-mono text-[11px] tracking-[.25em] uppercase">
+        <span>${esc(a.feature.caption)}</span><span class="text-blood">${esc(a.name)}</span>
+      </figcaption>
+    </figure>
+  </section>` : ''}
 
   <!-- Bio -->
   <section class="py-20 md:py-28 border-t border-line bg-ink">
