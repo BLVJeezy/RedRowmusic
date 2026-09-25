@@ -88,6 +88,14 @@
   .tilt-stage { perspective: 1100px; }
   .tilt { transform-style: preserve-3d; transition: transform .25s ease-out; will-change: transform; }
   .tilt .pop { transform: translateZ(40px); }
+  /* Klok-teller: elk cijfer op een eigen tegel die omhoog rolt */
+  .pad { --h: 2.75rem; position: relative; display: inline-block; width: 2rem; height: var(--h); overflow: hidden;
+         background: linear-gradient(#1d1d1d 0 50%, #131313 50%); border: 1px solid #2c2c2c;
+         box-shadow: 1px 1px 0 #333, 2px 2px 0 #333, 3px 3px 0 #333, inset 0 1px 0 rgba(255,255,255,.06); }
+  .pad::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: #000; box-shadow: 0 1px 0 rgba(255,255,255,.05); }
+  .pad-reel { display: flex; flex-direction: column; transition: transform 2.2s cubic-bezier(.15,.85,.2,1); }
+  .pad-reel span { height: var(--h); line-height: var(--h); text-align: center; }
+  @media (min-width: 768px) { .pad { --h: 3.5rem; width: 2.6rem; } }
   /* Artiestenkaarten zweven en draaien licht (aparte translate/rotate, zodat de muis-tilt blijft werken) */
   .float-card { animation: floatCard 6s ease-in-out infinite; box-shadow: 0 30px 40px -20px rgba(0,0,0,.9); }
   #artistGrid article:nth-child(2) .float-card { animation-delay: -3s; }
@@ -244,8 +252,16 @@
   </div>
 </div>
 
+<!-- ============ STATS ============ -->
+<section id="stats" class="pt-10 md:pt-14 pb-4">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <p class="font-mono text-xs tracking-[.35em] text-blood uppercase reveal">RedRow in cijfers</p>
+    <dl id="statList" class="mt-6 grid md:grid-cols-2 gap-x-12 border-t border-line [&>div:last-child]:md:col-span-2"></dl>
+  </div>
+</section>
+
 <!-- ============ EVENTS ============ -->
-<section id="events" class="pt-10 md:pt-14 pb-20 md:pb-28 scroll-mt-16" style="background: radial-gradient(ellipse 70% 40% at 50% 40%, rgba(154,53,48,.26), rgba(40,20,20,.28) 45%, transparent 100%)">
+<section id="events" class="pt-16 md:pt-20 pb-20 md:pb-28 scroll-mt-16" style="background: radial-gradient(ellipse 70% 40% at 50% 40%, rgba(154,53,48,.26), rgba(40,20,20,.28) 45%, transparent 100%)">
   <div class="max-w-6xl mx-auto px-4 sm:px-6">
     <div class="flex items-end justify-between gap-6 mb-10 md:mb-14 reveal">
       <div>
@@ -396,6 +412,15 @@
   ];
 
   // Vervang door echte data. Datum als JJJJ-MM-DD; ticket leeg = 'Binnenkort'.
+  // RedRow in cijfers — vervang door de echte cijfers
+  const stats = [
+    { label: 'Artiesten', value: 2 },
+    { label: 'Videoclips', value: 3 },
+    { label: 'Luisteraars', value: 48250 },
+    { label: 'Maandelijkse luisteraars', value: 12480 },
+    { label: 'Streams in totaal', value: 1254300 }
+  ];
+
   const events = [
     { date: '2026-10-17', artist: 'Issahh', title: 'Live Showcase', venue: 'Paradiso', city: 'Amsterdam', ticket: '#' },
     { date: '2026-10-31', artist: 'C7evn', title: 'Headline Show', venue: 'Maassilo', city: 'Rotterdam', ticket: '#' },
@@ -408,6 +433,29 @@
   const icon = (n, cls = 'w-5 h-5') => icons[n] ? `<svg viewBox="0 0 24 24" class="${cls} shrink-0" fill="#${icons[n][0]}" aria-hidden="true"><path d="${icons[n][1]}"/></svg>` : '';
 
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  // ---------- Stats ----------
+  $('#statList').innerHTML = stats.map(st => {
+    const chars = [...st.value.toLocaleString('nl-NL')];
+    return `
+    <div class="reveal flex items-center justify-between gap-4 py-5 md:py-6 border-b border-line">
+      <dt class="font-mono text-[11px] sm:text-xs tracking-[.25em] uppercase text-ash">${esc(st.label)}</dt>
+      <dd class="flex items-end gap-1 font-slab text-2xl md:text-4xl text-bone" aria-label="${st.value.toLocaleString('nl-NL')}">
+        ${chars.map(ch => /\d/.test(ch)
+          ? `<span class="pad" aria-hidden="true"><span class="pad-reel" data-d="${ch}">${'01234567890123456789'.split('').map(n => `<span>${n}</span>`).join('')}</span></span>`
+          : `<span class="text-blood pb-1" aria-hidden="true">${ch}</span>`).join('')}
+      </dd>
+    </div>`;
+  }).join('');
+  const statIO = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    $$('.pad-reel', e.target).forEach((reel, i) => {
+      reel.style.transitionDelay = `${i * 90}ms`;
+      reel.style.transform = `translateY(calc(var(--h) * -${10 + +reel.dataset.d}))`;
+    });
+    statIO.unobserve(e.target);
+  }), { threshold: .4 });
+  $$('#statList > div').forEach(el => statIO.observe(el));
 
   // ---------- Events ----------
   const months = ['JAN','FEB','MRT','APR','MEI','JUN','JUL','AUG','SEP','OKT','NOV','DEC'];
