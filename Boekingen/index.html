@@ -46,6 +46,10 @@
   .extrude-ghost:hover { transform: translate(-2px,-2px); box-shadow: 1px 1px 0 #9A3530, 2px 2px 0 #9A3530, 3px 3px 0 #9A3530, 4px 4px 0 #9A3530, 5px 5px 0 #9A3530, 6px 6px 0 #9A3530, 7px 7px 0 #9A3530, 8px 8px 0 #9A3530; }
   .extrude-ghost:active { transform: translate(5px,5px); box-shadow: 1px 1px 0 #333; }
 
+  /* Foto's die uit hun kader naar voren poppen */
+  .pop-photo { transform: translateZ(70px) scale(.92); box-shadow: 0 34px 48px -12px rgba(0,0,0,.95), 0 0 30px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.07); }
+  .pop-flat { position: relative; z-index: 1; transform: translate(-7px, -7px); box-shadow: 7px 7px 0 #000, 16px 20px 30px -6px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.07); transition: transform .3s ease, box-shadow .3s ease; }
+  a:hover > .pop-flat, .pop-flat:hover { transform: translate(-11px, -11px); box-shadow: 11px 11px 0 #000, 22px 28px 36px -6px rgba(0,0,0,.95), 0 0 0 1px rgba(255,255,255,.1); }
   /* Diamanten letters (artiestennamen) */
   .gem-text {
     background-image: linear-gradient(118deg, #6b727a 0%, #d9dfe6 16%, #ffffff 26%, #a9b1ba 38%, #6f767e 50%, #e8edf2 62%, #ffffff 70%, #9ca4ad 84%, #5f656d 100%);
