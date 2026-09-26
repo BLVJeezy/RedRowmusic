@@ -184,6 +184,13 @@
     .reveal { opacity: 1; transform: none; }
     .tilt { transition: none; }
   }
+  /* Geen flashiness: effen kleuren, geen glans, geen gloed */
+  .extrude.bg-blood, .extrude.bg-blood.tape-red { background: #8f0a14 !important; text-shadow: none; }
+  .extrude-ghost.border-bone\/80 { background: #e6e9ec !important; text-shadow: none; }
+  .extrude.bg-blood::before, .extrude.bg-blood::after,
+  .extrude-ghost.border-bone\/80::before, .extrude-ghost.border-bone\/80::after { display: none !important; }
+  .gem-text { background: none !important; -webkit-background-clip: border-box; background-clip: border-box; color: #F3F3F3; filter: none; }
+  .frame::before, .frame::after { border-image: none !important; border-color: #8f0a14 !important; filter: none !important; }
 </style>
 </head>
 <body class="font-sans text-bone antialiased min-h-screen overflow-x-hidden" style="background-image: none">
